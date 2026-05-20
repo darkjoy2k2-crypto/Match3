@@ -128,12 +128,12 @@ void game_state_update(void) {
     /* --- Lock mode exit (A released) --- */
     if (aReleased && lockMode == LOCK_ACTIVE) {
         if (lockDirDx != 0 || lockDirDy != 0) {
-            /* Commit swap: exchange fruits at locked cell and target cell */
-            food_engine_swap_cells(lockedCol, lockedRow, lockTargetCol, lockTargetRow);
+            /* Commit swap: start animation */
+            food_engine_start_swap_animation(lockedCol, lockedRow, lockTargetCol, lockTargetRow);
             quadCol = lockTargetCol;
             quadRow = lockTargetRow;
             sync_quad_pos_from_cell();
-            lockSwapConsumed = TRUE; /* block movement until direction re-pressed */
+            lockSwapConsumed = TRUE;
         }
         /* else: nothing – hand stays at locked cell */
         lockMode  = LOCK_NONE;

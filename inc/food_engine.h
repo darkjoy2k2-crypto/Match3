@@ -42,11 +42,24 @@ s16 food_engine_get_cell(u16 col, u16 row);
 u16 food_engine_get_last_cell_checks(void);
 
 /**
- * @brief Swap two fruit cells in the grid (visual update on next food_engine_update)
+ * @brief Start a swap animation between two adjacent fruits
  * @param col1 Column of first cell
  * @param row1 Row of first cell
  * @param col2 Column of second cell
  * @param row2 Row of second cell
+ * @note Pauses gravity/slide during animation. Call only for adjacent walkable cells.
+ */
+void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2);
+
+/**
+ * @brief Check if a swap animation is currently in progress
+ * @return TRUE if swap animation active, FALSE otherwise
+ */
+bool food_engine_is_swap_animating(void);
+
+/**
+ * @brief Legacy swap (no animation) - should not be used; kept for reference
+ * @deprecated Use food_engine_start_swap_animation() instead
  */
 void food_engine_swap_cells(u16 col1, u16 row1, u16 col2, u16 row2);
 
