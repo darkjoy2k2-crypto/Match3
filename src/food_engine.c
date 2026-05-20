@@ -20,6 +20,11 @@
 #define FRAME_GATE_INTERVAL 1
 #define SLIDE_BUFFER_MAX (GRID_WIDTH * GRID_HEIGHT)
 
+typedef enum {
+    SWAP_ANIM_NONE,
+    SWAP_ANIM_IN_PROGRESS
+} SwapAnimState;
+
 typedef struct MatchFlightSprite {
     Sprite* sprite;
     s16 x;
@@ -40,6 +45,11 @@ static u16 movementFrameCounter = 0;
 static bool boardDirty = TRUE;
 static bool movementDetectedThisCheck = FALSE;
 static bool shakeRequested = FALSE;
+static u16 dutyCycleCounter = 0;
+static bool forceGravityCheck = FALSE;
+static bool forceMatchCheck = FALSE;
+static SwapAnimState lastSwapAnimState = SWAP_ANIM_NONE;
+static u16 lastGravityAnimCount = 0;
 
 static s16 fruitGrid[GRID_HEIGHT][GRID_WIDTH];
 static s16 nextFruitGrid[GRID_HEIGHT][GRID_WIDTH];
@@ -84,11 +94,6 @@ typedef struct {
 
 static GravityAnimFruit gravityAnimFruits[MATCH_FLY_MAX_SPRITES];
 static u16 gravityAnimCount = 0;
-
-typedef enum {
-    SWAP_ANIM_NONE,
-    SWAP_ANIM_IN_PROGRESS
-} SwapAnimState;
 
 static SwapAnimState swapAnimState = SWAP_ANIM_NONE;
 static u16 swapSprite1Index = 0xFFFFu;
@@ -750,6 +755,21 @@ static bool row_has_gap(s16 row) {
     return FALSE;
 }
 
+static bool first_row_has_empty_cells(void) {
+    s16 rowMin = walkableMinCol[0];
+    s16 rowMax = walkableMaxCol[0];
+    s16 col;
+
+    if (rowMin < 0) return FALSE;
+
+    for (col = rowMin; col <= rowMax; col++) {
+        if (!is_walkable_cell(col, 0)) continue;
+        if (fruitGrid[0][col] < 0) return TRUE;
+    }
+
+    return FALSE;
+}
+
 static void update_row_sim_check_mask(void) {
     s16 row;
     bool enableFromHere = FALSE;
@@ -832,6 +852,8 @@ static bool center_compact_sparse_rows(void) {
 
 static bool simulate_food_grid(void) {
     s16 row;
+    bool straightFallDetected = FALSE;
+    bool diagonalFallDetected = FALSE;
 
     movementDetectedThisCheck = FALSE;
     currSlideCount = 0;
@@ -840,7 +862,7 @@ static bool simulate_food_grid(void) {
     clear_grid_rows(nextFruitGrid, -1, 0, GRID_HEIGHT - 1);
     clear_u8_grid(movedMask, 0);
 
-    /* Straight down gravity only - no diagonal falls */
+    /* Pass 1: Try straight down gravity only */
     for (row = GRID_HEIGHT - 1; row >= 0; row--) {
         s16 rowMin = walkableMinCol[row];
         s16 rowMax = walkableMaxCol[row];
@@ -864,14 +886,151 @@ static bool simulate_food_grid(void) {
             if (type >= 0) {
                 s16 belowRow = row + 1;
 
+                /* Priority 1: Straight down (gravity) with animation */
                 if (is_walkable_cell(col, belowRow)
                     && fruitGrid[belowRow][col] < 0
                     && nextFruitGrid[belowRow][col] < 0) {
-                    /* Straight down - only option */
                     (void)try_place(col, row, col, belowRow, type);
+                    straightFallDetected = TRUE;
+                    movedMask[row][col] = 1;  /* Mark as moved in this pass */
                 } else {
-                    /* Can't move down, stay in place */
-                    (void)try_place(col, row, col, row, type);
+                    /* Mark for potential diagonal in pass 2 */
+                    nextFruitGrid[row][col] = type;
+                }
+            }
+        }
+    }
+
+    /* Pass 2: Try diagonal falls only if no straight falls detected */
+    if (!straightFallDetected) {
+        for (row = GRID_HEIGHT - 1; row >= 0; row--) {
+            s16 rowMin = walkableMinCol[row];
+            s16 rowMax = walkableMaxCol[row];
+            s16 col;
+
+            if (rowMin < 0) continue;
+
+            for (col = rowMin; col <= rowMax; col++) {
+                s16 type = fruitGrid[row][col];
+
+                if (type >= 0 && nextFruitGrid[row][col] == type) {
+                    /* This fruit hasn't moved yet, try diagonal */
+                    s16 belowRow = row + 1;
+                    bool placed = FALSE;
+
+                    /* Try down-left: right neighbor must be blocked */
+                    s16 diag_col_left = col - 1;
+                    bool rightBlocked = (!is_walkable_cell(col + 1, row) || fruitGrid[row][col + 1] >= 0);
+                    if (rightBlocked
+                        && is_walkable_cell(diag_col_left, belowRow)
+                        && fruitGrid[belowRow][diag_col_left] < 0
+                        && nextFruitGrid[belowRow][diag_col_left] < 0
+                        && gravityAnimCount < MATCH_FLY_MAX_SPRITES) {
+                        food_engine_start_gravity_animation((u16)col, (u16)row, (u16)diag_col_left, (u16)belowRow, type);
+                        nextFruitGrid[belowRow][diag_col_left] = type;
+                        boardDirty = TRUE;
+                        movementDetectedThisCheck = TRUE;
+                        diagonalFallDetected = TRUE;
+                        movedMask[row][col] = 1;  /* Mark as moved in this pass */
+                        placed = TRUE;
+                    }
+
+                    /* Try down-right if down-left didn't work */
+                    if (!placed) {
+                        s16 diag_col_right = col + 1;
+                        bool leftBlocked = (!is_walkable_cell(col - 1, row) || fruitGrid[row][col - 1] >= 0);
+                        if (leftBlocked
+                            && is_walkable_cell(diag_col_right, belowRow)
+                            && fruitGrid[belowRow][diag_col_right] < 0
+                            && nextFruitGrid[belowRow][diag_col_right] < 0
+                            && gravityAnimCount < MATCH_FLY_MAX_SPRITES) {
+                            food_engine_start_gravity_animation((u16)col, (u16)row, (u16)diag_col_right, (u16)belowRow, type);
+                            nextFruitGrid[belowRow][diag_col_right] = type;
+                            boardDirty = TRUE;
+                            movementDetectedThisCheck = TRUE;
+                            diagonalFallDetected = TRUE;
+                            movedMask[row][col] = 1;  /* Mark as moved in this pass */
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* Pass 3: Try slides only if fruit moved in Pass 1 or 2 (not after another slide) */
+    if (!straightFallDetected && !diagonalFallDetected) {
+        for (row = GRID_HEIGHT - 1; row >= 0; row--) {
+            s16 rowMin = walkableMinCol[row];
+            s16 rowMax = walkableMaxCol[row];
+            s16 col;
+
+            if (rowMin < 0) continue;
+
+            for (col = rowMin; col <= rowMax; col++) {
+                s16 type = nextFruitGrid[row][col];
+
+                /* Check fruits in nextFruitGrid that moved in Pass 1 or 2 */
+                if (type >= 0 && movedMask[row][col] == 1) {
+                    /* This fruit just moved (gravity or diagonal), try to slide it */
+                    s16 belowRow = row + 1;
+
+                    /* Check if ANY diagonal is possible */
+                    bool diag_left_possible = FALSE;
+                    bool diag_right_possible = FALSE;
+
+                    s16 diag_col_left = col - 1;
+                    bool rightBlocked = (!is_walkable_cell(col + 1, row) || nextFruitGrid[row][col + 1] >= 0);
+                    if (rightBlocked
+                        && is_walkable_cell(diag_col_left, belowRow)
+                        && nextFruitGrid[belowRow][diag_col_left] < 0) {
+                        diag_left_possible = TRUE;
+                    }
+
+                    s16 diag_col_right = col + 1;
+                    bool leftBlocked = (!is_walkable_cell(col - 1, row) || nextFruitGrid[row][col - 1] >= 0);
+                    if (leftBlocked
+                        && is_walkable_cell(diag_col_right, belowRow)
+                        && nextFruitGrid[belowRow][diag_col_right] < 0) {
+                        diag_right_possible = TRUE;
+                    }
+
+                    /* Only slide if NO diagonal is possible */
+                    if (!diag_left_possible && !diag_right_possible) {
+                        /* Only slide if gravity is blocked */
+                        bool gravityBlocked = !is_walkable_cell(col, belowRow)
+                                            || nextFruitGrid[belowRow][col] >= 0;
+
+                        if (gravityBlocked) {
+                            bool placed = FALSE;
+
+                            /* Try slide left first */
+                            s16 slide_col_left = col - 1;
+                            if (is_walkable_cell(slide_col_left, row)
+                                && nextFruitGrid[row][slide_col_left] < 0
+                                && gravityAnimCount < MATCH_FLY_MAX_SPRITES) {
+                                food_engine_start_gravity_animation((u16)col, (u16)row, (u16)slide_col_left, (u16)row, type);
+                                nextFruitGrid[row][slide_col_left] = type;
+                                nextFruitGrid[row][col] = -1;
+                                boardDirty = TRUE;
+                                movementDetectedThisCheck = TRUE;
+                                placed = TRUE;
+                            }
+
+                            /* Try slide right if left didn't work */
+                            if (!placed) {
+                                s16 slide_col_right = col + 1;
+                                if (is_walkable_cell(slide_col_right, row)
+                                    && nextFruitGrid[row][slide_col_right] < 0
+                                    && gravityAnimCount < MATCH_FLY_MAX_SPRITES) {
+                                    food_engine_start_gravity_animation((u16)col, (u16)row, (u16)slide_col_right, (u16)row, type);
+                                    nextFruitGrid[row][slide_col_right] = type;
+                                    nextFruitGrid[row][col] = -1;
+                                    boardDirty = TRUE;
+                                    movementDetectedThisCheck = TRUE;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -897,7 +1056,10 @@ static bool simulate_food_grid(void) {
     return movementDetectedThisCheck;
 }
 
-static bool mark_all_matches(void) {
+static u16 matchCheckPhase = 0; /* 0=horizontal, 1=vertical */
+static u16 matchCheckCounter = 0; /* Frame counter for phase timing */
+
+static bool mark_horizontal_matches(void) {
     s16 row;
     bool anyMatched = FALSE;
 
@@ -941,43 +1103,57 @@ static bool mark_all_matches(void) {
         }
     }
 
-    {
-        s16 col;
-        for (col = 0; col < GRID_WIDTH; col++) {
-            s16 row = 0;
+    return anyMatched;
+}
 
-            while (row < GRID_HEIGHT) {
-                s16 runStart;
-                s16 runLen;
-                s16 type;
+static bool mark_vertical_matches(void) {
+    s16 col;
+    bool anyMatched = FALSE;
 
-                if (!is_walkable_cell(col, row) || fruitGrid[row][col] < 0) {
-                    row++;
-                    continue;
-                }
+    clear_u8_grid(matchMask, 0);
 
-                runStart = row;
-                runLen = 1;
-                type = fruitGrid[row][col];
+    for (col = 0; col < GRID_WIDTH; col++) {
+        s16 row = 0;
+
+        while (row < GRID_HEIGHT) {
+            s16 runStart;
+            s16 runLen;
+            s16 type;
+
+            if (!is_walkable_cell(col, row) || fruitGrid[row][col] < 0) {
                 row++;
+                continue;
+            }
 
-                while (row < GRID_HEIGHT && is_walkable_cell(col, row) && fruitGrid[row][col] == type) {
-                    runLen++;
-                    row++;
-                }
+            runStart = row;
+            runLen = 1;
+            type = fruitGrid[row][col];
+            row++;
 
-                if (runLen >= 3) {
-                    s16 markRow;
-                    for (markRow = runStart; markRow < (runStart + runLen); markRow++) {
-                        matchMask[markRow][col] = 1;
-                    }
-                    anyMatched = TRUE;
+            while (row < GRID_HEIGHT && is_walkable_cell(col, row) && fruitGrid[row][col] == type) {
+                runLen++;
+                row++;
+            }
+
+            if (runLen >= 3) {
+                s16 markRow;
+                for (markRow = runStart; markRow < (runStart + runLen); markRow++) {
+                    matchMask[markRow][col] = 1;
                 }
+                anyMatched = TRUE;
             }
         }
     }
 
     return anyMatched;
+}
+
+static bool mark_all_matches(void) {
+    if (matchCheckPhase == 0) {
+        return mark_horizontal_matches();
+    } else {
+        return mark_vertical_matches();
+    }
 }
 
 static bool remove_marked_cells(void) {
@@ -1024,6 +1200,10 @@ static bool resolve_board_cascade(void) {
         movementFrameCounter = 0;
         boardDirty = TRUE;
         pendingMatchCheck = TRUE;
+
+        /* Switch phase after match resolved */
+        matchCheckPhase = (matchCheckPhase == 0) ? 1 : 0;
+        matchCheckCounter = 0;
     }
 
     return anyResolved;
@@ -1454,15 +1634,28 @@ void food_engine_init(void) {
 }
 
 void food_engine_update(void) {
-    bool movementCheckRan = FALSE;
-    bool gravityMovedThisCheck = FALSE;
-
     currentCellChecks = 0;
+    movementDetectedThisCheck = FALSE;
 
-    /* If swap is animating, skip everything */
+    /* Detect animation completion: swap or gravity */
+    bool swapJustCompleted = (lastSwapAnimState == SWAP_ANIM_IN_PROGRESS && swapAnimState == SWAP_ANIM_NONE);
+    bool gravityJustCompleted = (lastGravityAnimCount > 0 && gravityAnimCount == 0);
+
+    if (swapJustCompleted || gravityJustCompleted) {
+        forceGravityCheck = TRUE;
+    }
+
+    lastSwapAnimState = swapAnimState;
+    lastGravityAnimCount = gravityAnimCount;
+
+    /* If swap is animating, update sprites but skip game logic */
     if (swapAnimState == SWAP_ANIM_IN_PROGRESS) {
-        update_match_flight();
-        update_gravity_animations();
+        if (matchFlightActiveCount > 0) {
+            update_match_flight();
+        }
+        if (gravityAnimCount > 0) {
+            update_gravity_animations();
+        }
         update_swap_animation();
         if (boardDirty) {
             render_grid_diff();
@@ -1472,34 +1665,151 @@ void food_engine_update(void) {
         return;
     }
 
-    /* If gravity animations are in progress, update them but do NOT render or run any game logic */
+    /* If gravity animations are in progress, update them but skip game logic */
     if (gravityAnimCount > 0) {
-        update_match_flight();
+        if (matchFlightActiveCount > 0) {
+            update_match_flight();
+        }
         update_gravity_animations();
-        /* Do not call render_grid_diff while animating - stamping happens in update_gravity_animations */
         lastCellChecks = currentCellChecks;
         return;
     }
 
-    movementFrameCounter++;
-
-    update_match_flight();
-    update_gravity_animations();
-
-    if (movementFrameCounter >= FRAME_GATE_INTERVAL) {
-        movementFrameCounter = 0;
-        gravityMovedThisCheck = simulate_food_grid();
-        if (shakeRequested) {
-            (void)center_compact_sparse_rows();
-            shakeRequested = FALSE;
-        }
-        movementCheckRan = TRUE;
-        food_engine_spawn_random();
+    /* Only update sprites if they're active */
+    if (matchFlightActiveCount > 0) {
+        update_match_flight();
     }
 
-    if (pendingMatchCheck && movementCheckRan && !gravityMovedThisCheck && gravityAnimCount == 0) {
-        pendingMatchCheck = FALSE;
-        (void)resolve_board_cascade();
+    /* Force immediate match detection after move/swap settles */
+    if (forceMatchCheck) {
+        bool horizontalFound = FALSE;
+        bool verticalFound = FALSE;
+
+        /* Check horizontal matches */
+        matchCheckPhase = 0;
+        horizontalFound = mark_horizontal_matches();
+        if (horizontalFound) {
+            if (remove_marked_cells()) {
+                /* Matches removed, trigger gravity cascade */
+                forceGravityCheck = TRUE;
+                movementFrameCounter = 0;
+                boardDirty = TRUE;
+                matchCheckPhase = 1;
+                forceMatchCheck = FALSE;
+                if (boardDirty && gravityAnimCount == 0) {
+                    render_grid_diff();
+                    boardDirty = FALSE;
+                }
+                lastCellChecks = currentCellChecks;
+                return;
+            }
+        }
+
+        /* Check vertical matches */
+        matchCheckPhase = 1;
+        verticalFound = mark_vertical_matches();
+        if (verticalFound) {
+            if (remove_marked_cells()) {
+                /* Matches removed, trigger gravity cascade */
+                forceGravityCheck = TRUE;
+                movementFrameCounter = 0;
+                boardDirty = TRUE;
+                matchCheckPhase = 0;
+                forceMatchCheck = FALSE;
+                if (boardDirty && gravityAnimCount == 0) {
+                    render_grid_diff();
+                    boardDirty = FALSE;
+                }
+                lastCellChecks = currentCellChecks;
+                return;
+            }
+        }
+
+        /* No matches found, allow spawn and return to duty cycle */
+        forceMatchCheck = FALSE;
+        /* Spawn only when first row has empty cells and no animations pending */
+        if (first_row_has_empty_cells() && gravityAnimCount == 0 && matchFlightActiveCount == 0) {
+            food_engine_spawn_random();
+        }
+        if (boardDirty && gravityAnimCount == 0) {
+            render_grid_diff();
+            boardDirty = FALSE;
+        }
+        lastCellChecks = currentCellChecks;
+        return;
+    }
+
+    /* Force immediate gravity check after animation completion or match resolution */
+    if (forceGravityCheck) {
+        movementFrameCounter++;
+        if (movementFrameCounter >= FRAME_GATE_INTERVAL) {
+            movementFrameCounter = 0;
+            (void)simulate_food_grid();
+            if (shakeRequested) {
+                (void)center_compact_sparse_rows();
+                shakeRequested = FALSE;
+            }
+        }
+
+        /* If gravity detected movement, continue forcing until it settles */
+        if (!movementDetectedThisCheck) {
+            forceGravityCheck = FALSE;
+            forceMatchCheck = TRUE;  /* Trigger full match check after gravity settles */
+        }
+
+        if (boardDirty && gravityAnimCount == 0) {
+            render_grid_diff();
+            boardDirty = FALSE;
+        }
+        lastCellChecks = currentCellChecks;
+        return;
+    }
+
+    /* Normal duty cycle operation */
+    dutyCycleCounter++;
+    if (dutyCycleCounter >= 50) dutyCycleCounter = 0;
+
+    if (dutyCycleCounter == 12) {
+        /* Gravity simulation check */
+        movementFrameCounter++;
+        if (movementFrameCounter >= FRAME_GATE_INTERVAL) {
+            movementFrameCounter = 0;
+            if (simulate_food_grid()) {
+                /* Movement detected, force immediate re-check next frame */
+                forceGravityCheck = TRUE;
+            }
+            if (shakeRequested) {
+                (void)center_compact_sparse_rows();
+                shakeRequested = FALSE;
+            }
+        }
+    }
+
+    if (dutyCycleCounter == 25) {
+        /* Horizontal match-3 detection */
+        if (pendingMatchCheck && gravityAnimCount == 0) {
+            matchCheckPhase = 0;
+            if (resolve_board_cascade()) {
+                /* Match resolved, force immediate gravity check */
+                forceGravityCheck = TRUE;
+            }
+        }
+    }
+
+    if (dutyCycleCounter == 0 || dutyCycleCounter == 50) {
+        /* Vertical match-3 detection (tick 50 wraps to 0) */
+        if (pendingMatchCheck && gravityAnimCount == 0) {
+            matchCheckPhase = 1;
+            if (resolve_board_cascade()) {
+                /* Match resolved, force immediate gravity check */
+                forceGravityCheck = TRUE;
+            }
+        }
+    }
+
+    /* Spawn only when first row has empty cells - during normal duty cycle only */
+    if (dutyCycleCounter == 0 && first_row_has_empty_cells() && gravityAnimCount == 0 && matchFlightActiveCount == 0) {
+        food_engine_spawn_random();
     }
 
     if (boardDirty && gravityAnimCount == 0) {
@@ -1583,6 +1893,11 @@ void food_engine_cleanup(void) {
     pendingMatchCheck = FALSE;
     simFrameCounter = 0;
     movementFrameCounter = 0;
+    dutyCycleCounter = 0;
+    forceGravityCheck = FALSE;
+    forceMatchCheck = FALSE;
+    lastSwapAnimState = SWAP_ANIM_NONE;
+    lastGravityAnimCount = 0;
     boardDirty = TRUE;
     movementDetectedThisCheck = FALSE;
     shakeRequested = FALSE;
