@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${GDK}/inc",
+                "${GDK}/res",
+                "inc",
+                "res"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "cStandard": "c99",
+            "intelliSenseMode": "windows-clang-x86"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "genesis.h": "c"
+    },
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "on",
+        "strings": "on"
+    },
+    "editor.hover.enabled": "on",
+    "C_Cpp.errorSquiggles": "enabled"
+}

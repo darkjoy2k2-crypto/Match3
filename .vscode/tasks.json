@@ -1,0 +1,173 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Genesis: Debug & Run (Gens KLog)",
+			"type": "shell",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"bump save version",
+				"make debug",
+				"run gens debug"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "Genesis: Release & Run (BlastEm)",
+			"type": "shell",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"make",
+				"run blastem release"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "bump save version",
+			"type": "shell",
+			"command": "py",
+			"args": [
+				"${workspaceFolder}\\py\\bump_save_version.py"
+			],
+			"group": "none"
+		},
+		{
+			"label": "make debug",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/C",
+				"${env:GDK}\\bin\\make -f ${env:GDK}\\makefile.gen debug && if exist ${workspaceFolder}\\out\\rom.bin move /Y ${workspaceFolder}\\out\\rom.bin ${workspaceFolder}\\out\\tetr-vibe-debug.gen"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "none"
+		},
+		{
+			"label": "make",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/C",
+				"${env:GDK}\\bin\\make -f ${env:GDK}\\makefile.gen release && if exist ${workspaceFolder}\\out\\rom.bin move /Y ${workspaceFolder}\\out\\rom.bin ${workspaceFolder}\\out\\tetr-vibe.gen"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "none"
+		},
+		{
+			"label": "run gens debug",
+			"type": "shell",
+			"command": "${env:GDK}\\gens\\gens.exe",
+			"args": [
+				"${workspaceFolder}\\out\\tetr-vibe-debug.gen"
+			],
+			"options": {
+				"cwd": "${env:GDK}\\gens"
+			},
+			"group": "none"
+		},
+		{
+			"label": "run blastem release",
+			"type": "shell",
+			"command": "${env:GDK}\\blastem\\blastem.exe",
+			"args": [
+				"${workspaceFolder}\\out\\tetr-vibe.gen"
+			],
+			"options": {
+				"cwd": "${env:GDK}\\blastem"
+			},
+			"group": "none"
+		},
+		{
+			"label": "clean",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/C",
+				"${env:GDK}\\bin\\make -f ${env:GDK}\\makefile.gen clean && if exist ${workspaceFolder}\\out\\tetr-vibe*.gen del /Q ${workspaceFolder}\\out\\tetr-vibe*.gen"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Tile Check",
+			"type": "shell",
+			"command": "py",
+			"args": [
+				"${workspaceFolder}\\py\\tilecheck.py"
+			],
+			"group": "none"
+		},
+		{
+			"label": "Transform_csv",
+			"type": "shell",
+			"command": "py",
+			"args": [
+				"${workspaceFolder}\\py\\transform\\transform.py"
+			],
+			"group": "none"
+		},
+		{
+			"label": "smartfix",
+			"type": "shell",
+			"command": "py",
+			"args": [
+				"${workspaceFolder}\\py\\smartfix.py"
+			],
+			"group": "none"
+		},
+		{
+			"label": "py Colors",
+			"type": "shell",
+			"command": "py",
+			"args": [
+				"${workspaceFolder}\\py\\colorconvert.py",
+				"${workspaceFolder}\\res"
+			],
+			"group": "none"
+		},
+		{
+			"label": "Build DeflemaskClipboardBridge",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"wpf/DeflemaskClipboardBridge/DeflemaskClipboardBridge.csproj"
+			],
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"label": "WPF: Debug & Run",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"wpf/DeflemaskClipboardBridge/DeflemaskClipboardBridge.csproj"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
