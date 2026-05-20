@@ -17,7 +17,7 @@
 #define MATCH_FLY_FP_SHIFT 8
 #define BOARD_INIT_MAX_RETRIES 120
 #define CASCADE_MAX_STEPS 128
-#define FRAME_GATE_INTERVAL 5
+#define FRAME_GATE_INTERVAL 1
 #define SLIDE_BUFFER_MAX (GRID_WIDTH * GRID_HEIGHT)
 
 typedef struct MatchFlightSprite {
@@ -70,6 +70,20 @@ static u8 spawnBagPos[GRID_WIDTH];
 static MatchFlightSprite matchFlightSprites[MATCH_FLY_MAX_SPRITES];
 static u16 matchFlightActiveCount = 0;
 static bool matchFlightInProgress = FALSE;
+
+typedef struct {
+    u16 spriteIndex;
+    u16 srcCol;
+    u16 srcRow;
+    u16 dstCol;
+    u16 dstRow;
+    s16 type;
+    bool active;
+    bool stampErased;
+} GravityAnimFruit;
+
+static GravityAnimFruit gravityAnimFruits[MATCH_FLY_MAX_SPRITES];
+static u16 gravityAnimCount = 0;
 
 typedef enum {
     SWAP_ANIM_NONE,
@@ -534,6 +548,144 @@ static bool is_reverse_slide_blocked(s16 srcCol, s16 srcRow, s16 dstCol, s16 dst
     return FALSE;
 }
 
+static void food_engine_start_gravity_animation(u16 srcCol, u16 srcRow, u16 dstCol, u16 dstRow, s16 type) {
+    u16 anim;
+    u16 frame;
+    MatchFlightSprite* slot;
+    s32 dx;
+    s32 dy;
+    u32 distSq;
+    u32 dist;
+    u16 i;
+
+    if (type < 0 || type >= FRUIT_TYPE_COUNT) return;
+
+    slot = match_flight_alloc_slot();
+    if (slot == NULL) return;
+
+    anim = (u16)(type >> 3);
+    frame = (u16)(type & 7);
+
+    /* Step 2: Create sprite at source position */
+    s16 startX = grid_col_to_px((s16)srcCol);
+    s16 startY = grid_row_to_px((s16)srcRow);
+    s16 targetX = grid_col_to_px((s16)dstCol);
+    s16 targetY = grid_row_to_px((s16)dstRow);
+
+    slot->x = startX;
+    slot->y = startY;
+    slot->xFp = ((s32)slot->x) << MATCH_FLY_FP_SHIFT;
+    slot->yFp = ((s32)slot->y) << MATCH_FLY_FP_SHIFT;
+    slot->targetX = targetX;
+    slot->targetY = targetY;
+    slot->velXFp = 0;
+    slot->velYFp = 0;
+
+    dx = (s32)targetX - (s32)startX;
+    dy = (s32)targetY - (s32)startY;
+    distSq = (u32)((dx * dx) + (dy * dy));
+    dist = isqrt_u32(distSq);
+
+    if (dist > 0u) {
+        slot->velXFp = ((dx * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+        slot->velYFp = ((dy * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+    }
+
+    if ((slot->velXFp == 0) && (dx != 0)) {
+        slot->velXFp = (dx > 0) ? 1 : -1;
+    }
+    if ((slot->velYFp == 0) && (dy != 0)) {
+        slot->velYFp = (dy > 0) ? 1 : -1;
+    }
+
+    slot->sprite = SPR_addSprite(
+        &food_sprite_mold,
+        startX,
+        startY,
+        TILE_ATTR(PAL2, FALSE, FALSE, TRUE)
+    );
+
+    if (slot->sprite != NULL) {
+        SPR_setAnim(slot->sprite, anim);
+        SPR_setAutoAnimation(slot->sprite, FALSE);
+        SPR_setFrame(slot->sprite, frame);
+        SPR_setHFlip(slot->sprite, FALSE);
+        SPR_setVFlip(slot->sprite, FALSE);
+        SPR_setPosition(slot->sprite, startX, startY);
+    }
+
+    slot->active = TRUE;
+
+    /* Prevent render_grid_diff from drawing at destination while animating */
+    lastRenderedGrid[dstRow][dstCol] = -1;
+
+    i = (u16)(slot - matchFlightSprites);
+    if (gravityAnimCount < MATCH_FLY_MAX_SPRITES) {
+        gravityAnimFruits[gravityAnimCount].spriteIndex = i;
+        gravityAnimFruits[gravityAnimCount].srcCol = srcCol;
+        gravityAnimFruits[gravityAnimCount].srcRow = srcRow;
+        gravityAnimFruits[gravityAnimCount].dstCol = dstCol;
+        gravityAnimFruits[gravityAnimCount].dstRow = dstRow;
+        gravityAnimFruits[gravityAnimCount].type = type;
+        gravityAnimFruits[gravityAnimCount].active = TRUE;
+        gravityAnimFruits[gravityAnimCount].stampErased = FALSE;
+        gravityAnimCount++;
+    }
+
+    matchFlightActiveCount++;
+    matchFlightInProgress = TRUE;
+}
+
+static void update_gravity_animations(void) {
+    u16 i;
+    u16 writePos = 0;
+
+    for (i = 0; i < gravityAnimCount; i++) {
+        if (!gravityAnimFruits[i].active) continue;
+
+        u16 spriteIdx = gravityAnimFruits[i].spriteIndex;
+        if (spriteIdx >= MATCH_FLY_MAX_SPRITES) {
+            gravityAnimFruits[i].active = FALSE;
+            continue;
+        }
+
+        MatchFlightSprite* slot = &matchFlightSprites[spriteIdx];
+
+        /* On first sprite movement, erase stamp from source position */
+        if (!gravityAnimFruits[i].stampErased) {
+            erase_fruit_from_bg((s16)gravityAnimFruits[i].srcCol, (s16)gravityAnimFruits[i].srcRow);
+            lastRenderedGrid[gravityAnimFruits[i].srcRow][gravityAnimFruits[i].srcCol] = -1;
+            gravityAnimFruits[i].stampErased = TRUE;
+        }
+
+        if (!slot->active) {
+            /* Step 4: Sprite animation complete - stamp fruit at destination on bg_a */
+            u16 dstCol = gravityAnimFruits[i].dstCol;
+            u16 dstRow = gravityAnimFruits[i].dstRow;
+
+            if (fruitGrid[dstRow][dstCol] >= 0) {
+                draw_fruit_to_bg((s16)dstCol, (s16)dstRow, (u16)fruitGrid[dstRow][dstCol]);
+                lastRenderedGrid[dstRow][dstCol] = fruitGrid[dstRow][dstCol];
+            }
+
+            /* Step 5: Remove sprite */
+            if (slot->sprite != NULL) {
+                SPR_setPosition(slot->sprite, -128, -128);
+                SPR_releaseSprite(slot->sprite);
+                slot->sprite = NULL;
+            }
+
+            gravityAnimFruits[i].active = FALSE;
+            continue;
+        }
+
+        /* Step 3: Sprite still moving */
+        gravityAnimFruits[writePos++] = gravityAnimFruits[i];
+    }
+
+    gravityAnimCount = writePos;
+}
+
 static void record_slide(s16 srcCol, s16 srcRow, s16 dstCol, s16 dstRow) {
     if (currSlideCount >= SLIDE_BUFFER_MAX) return;
 
@@ -556,12 +708,18 @@ static void commit_slide_buffer(void) {
     }
 }
 
+
 static bool try_place(s16 srcCol, s16 srcRow, s16 dstCol, s16 dstRow, s16 type) {
     bool isSlide = (srcCol != dstCol);
+    bool isGravity = (srcRow != dstRow);
 
     if (!is_walkable_cell(dstCol, dstRow)) return FALSE;
     if (nextFruitGrid[dstRow][dstCol] >= 0) return FALSE;
     if (isSlide && is_reverse_slide_blocked(srcCol, srcRow, dstCol, dstRow)) return FALSE;
+
+    if (isGravity && type >= 0 && gravityAnimCount < MATCH_FLY_MAX_SPRITES) {
+        food_engine_start_gravity_animation((u16)srcCol, (u16)srcRow, (u16)dstCol, (u16)dstRow, type);
+    }
 
     nextFruitGrid[dstRow][dstCol] = type;
     movedMask[dstRow][dstCol] = 1;
@@ -674,7 +832,6 @@ static bool center_compact_sparse_rows(void) {
 
 static bool simulate_food_grid(void) {
     s16 row;
-    bool leftFirst = (simFrameCounter & 1u) == 0u;
 
     movementDetectedThisCheck = FALSE;
     currSlideCount = 0;
@@ -683,12 +840,10 @@ static bool simulate_food_grid(void) {
     clear_grid_rows(nextFruitGrid, -1, 0, GRID_HEIGHT - 1);
     clear_u8_grid(movedMask, 0);
 
+    /* Straight down gravity only - no diagonal falls */
     for (row = GRID_HEIGHT - 1; row >= 0; row--) {
         s16 rowMin = walkableMinCol[row];
         s16 rowMax = walkableMaxCol[row];
-        s16 startCol;
-        s16 endCol;
-        s16 step;
         s16 col;
 
         if (rowMin < 0) continue;
@@ -701,18 +856,7 @@ static bool simulate_food_grid(void) {
             continue;
         }
 
-        if (leftFirst) {
-            startCol = rowMin;
-            endCol = rowMax;
-            step = 1;
-        } else {
-            startCol = rowMax;
-            endCol = rowMin;
-            step = -1;
-        }
-
-        col = startCol;
-        while (TRUE) {
+        for (col = rowMin; col <= rowMax; col++) {
             s16 type = fruitGrid[row][col];
 
             currentCellChecks++;
@@ -723,154 +867,13 @@ static bool simulate_food_grid(void) {
                 if (is_walkable_cell(col, belowRow)
                     && fruitGrid[belowRow][col] < 0
                     && nextFruitGrid[belowRow][col] < 0) {
+                    /* Straight down - only option */
                     (void)try_place(col, row, col, belowRow, type);
                 } else {
-                    s16 leftCol = col - 1;
-                    s16 rightCol = col + 1;
-                    bool downLeftFree = is_walkable_cell(leftCol, belowRow)
-                        && fruitGrid[belowRow][leftCol] < 0
-                        && nextFruitGrid[belowRow][leftCol] < 0;
-                    bool downRightFree = is_walkable_cell(rightCol, belowRow)
-                        && fruitGrid[belowRow][rightCol] < 0
-                        && nextFruitGrid[belowRow][rightCol] < 0;
-
-                    if (downLeftFree && downRightFree) {
-                        if (leftFirst) {
-                            if (!try_place(col, row, leftCol, belowRow, type)) {
-                                (void)try_place(col, row, rightCol, belowRow, type);
-                            }
-                        } else {
-                            if (!try_place(col, row, rightCol, belowRow, type)) {
-                                (void)try_place(col, row, leftCol, belowRow, type);
-                            }
-                        }
-                    } else if (downLeftFree) {
-                        (void)try_place(col, row, leftCol, belowRow, type);
-                    } else if (downRightFree) {
-                        (void)try_place(col, row, rightCol, belowRow, type);
-                    } else {
-                        (void)try_place(col, row, col, row, type);
-                    }
-                }
-            }
-
-            if (col == endCol) break;
-            col += step;
-        }
-    }
-
-    clear_grid_rows(fruitGrid, -1, 0, GRID_HEIGHT - 1);
-
-    for (row = 0; row < GRID_HEIGHT; row++) {
-        s16 rowMin = walkableMinCol[row];
-        s16 rowMax = walkableMaxCol[row];
-        s16 col;
-
-        if (rowMin < 0) continue;
-
-        for (col = rowMin; col <= rowMax; col++) {
-            if (!is_walkable_cell(col, row)) continue;
-            fruitGrid[row][col] = nextFruitGrid[row][col];
-        }
-    }
-
-    clear_grid_rows(nextFruitGrid, -1, 0, GRID_HEIGHT - 1);
-    clear_u8_grid(movedMask, 0);
-
-    for (row = GRID_HEIGHT - 1; row >= 0; row--) {
-        s16 rowMin = walkableMinCol[row];
-        s16 rowMax = walkableMaxCol[row];
-        s16 startCol;
-        s16 endCol;
-        s16 step;
-        s16 col;
-
-        if (rowMin < 0) continue;
-
-        if (!rowSimCheckMask[row]) {
-            for (col = rowMin; col <= rowMax; col++) {
-                if (!is_walkable_cell(col, row)) continue;
-                nextFruitGrid[row][col] = fruitGrid[row][col];
-            }
-            continue;
-        }
-
-        if (leftFirst) {
-            startCol = rowMin;
-            endCol = rowMax;
-            step = 1;
-        } else {
-            startCol = rowMax;
-            endCol = rowMin;
-            step = -1;
-        }
-
-        col = startCol;
-        while (TRUE) {
-            s16 type = fruitGrid[row][col];
-
-            currentCellChecks++;
-
-            if (type >= 0) {
-                s16 belowRow = row + 1;
-                s16 leftCol = col - 1;
-                s16 rightCol = col + 1;
-                bool belowWalkable = is_walkable_cell(col, belowRow);
-                bool belowFruit = belowWalkable && (fruitGrid[belowRow][col] >= 0);
-                bool leftWalkable = is_walkable_cell(leftCol, row);
-                bool rightWalkable = is_walkable_cell(rightCol, row);
-                bool leftBlocked = leftWalkable && (fruitGrid[row][leftCol] >= 0);
-                bool rightBlocked = rightWalkable && (fruitGrid[row][rightCol] >= 0);
-                bool leftFree = leftWalkable
-                    && (fruitGrid[row][leftCol] < 0)
-                    && (nextFruitGrid[row][leftCol] < 0);
-                bool rightFree = rightWalkable
-                    && (fruitGrid[row][rightCol] < 0)
-                    && (nextFruitGrid[row][rightCol] < 0);
-                bool downLeftFree = is_walkable_cell(leftCol, belowRow)
-                    && (fruitGrid[belowRow][leftCol] < 0)
-                    && (nextFruitGrid[belowRow][leftCol] < 0);
-                bool downRightFree = is_walkable_cell(rightCol, belowRow)
-                    && (fruitGrid[belowRow][rightCol] < 0)
-                    && (nextFruitGrid[belowRow][rightCol] < 0);
-
-                if (belowFruit && leftBlocked && rightFree) {
-                    if (downRightFree) {
-                        (void)try_place(col, row, rightCol, belowRow, type);
-                    } else if (row != 0) {
-                        (void)try_place(col, row, rightCol, row, type);
-                    } else {
-                        (void)try_place(col, row, col, row, type);
-                    }
-                } else if (belowFruit && rightBlocked && leftFree) {
-                    if (downLeftFree) {
-                        (void)try_place(col, row, leftCol, belowRow, type);
-                    } else if (row != 0) {
-                        (void)try_place(col, row, leftCol, row, type);
-                    } else {
-                        (void)try_place(col, row, col, row, type);
-                    }
-                } else if (downLeftFree && downRightFree) {
-                    if (leftFirst) {
-                        if (!try_place(col, row, leftCol, belowRow, type)) {
-                            (void)try_place(col, row, rightCol, belowRow, type);
-                        }
-                    } else {
-                        if (!try_place(col, row, rightCol, belowRow, type)) {
-                            (void)try_place(col, row, leftCol, belowRow, type);
-                        }
-                    }
-                } else if (downLeftFree) {
-                    (void)try_place(col, row, leftCol, belowRow, type);
-                } else if (downRightFree) {
-                    (void)try_place(col, row, rightCol, belowRow, type);
-                } else {
+                    /* Can't move down, stay in place */
                     (void)try_place(col, row, col, row, type);
                 }
             }
-
-            if (col == endCol) break;
-            col += step;
         }
     }
 
@@ -1103,19 +1106,25 @@ static void render_grid_diff(void) {
 
 static void update_swap_animation(void) {
     if (swapAnimState == SWAP_ANIM_NONE) return;
-    if (swapSprite1Index >= MATCH_FLY_MAX_SPRITES || swapSprite2Index >= MATCH_FLY_MAX_SPRITES) return;
+    if (swapSprite1Index >= MATCH_FLY_MAX_SPRITES) return;
+
+    bool isMove = (swapSprite2Index == 0xFFFFu);
 
     MatchFlightSprite* slot1 = &matchFlightSprites[swapSprite1Index];
-    MatchFlightSprite* slot2 = &matchFlightSprites[swapSprite2Index];
+    MatchFlightSprite* slot2 = isMove ? NULL : &matchFlightSprites[swapSprite2Index];
 
-    /* Check if both sprites reached targets */
+    /* Check if animation(s) completed */
     bool slot1Done = !slot1->active;
-    bool slot2Done = !slot2->active;
+    bool slot2Done = isMove ? TRUE : !slot2->active;
 
     if (slot1Done && slot2Done) {
         /* Animation complete: stamp fruits on background at new positions */
         lastRenderedGrid[swapRow1][swapCol1] = -1;
-        lastRenderedGrid[swapRow2][swapCol2] = -1;
+        if (!isMove) {
+            lastRenderedGrid[swapRow2][swapCol2] = -1;
+        }
+
+        /* Stamp new positions with fruits */
         if (fruitGrid[swapRow1][swapCol1] >= 0) {
             draw_fruit_to_bg((s16)swapCol1, (s16)swapRow1, (u16)fruitGrid[swapRow1][swapCol1]);
         }
@@ -1129,7 +1138,7 @@ static void update_swap_animation(void) {
             SPR_releaseSprite(slot1->sprite);
             slot1->sprite = NULL;
         }
-        if (slot2->sprite != NULL) {
+        if (!isMove && slot2->sprite != NULL) {
             SPR_setPosition(slot2->sprite, -128, -128);
             SPR_releaseSprite(slot2->sprite);
             slot2->sprite = NULL;
@@ -1151,177 +1160,151 @@ void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2) {
     s32 dy;
     u32 distSq;
     u32 dist;
-    MatchFlightSprite* slot1;
-    MatchFlightSprite* slot2;
+    MatchFlightSprite* slot1 = NULL;
+    MatchFlightSprite* slot2 = NULL;
+    u16 i;
 
     /* Validate input */
     if (!is_walkable_cell((s16)col1, (s16)row1) || !is_walkable_cell((s16)col2, (s16)row2)) return;
-    if (swapAnimState == SWAP_ANIM_IN_PROGRESS) return; /* Already animating */
+    if (swapAnimState == SWAP_ANIM_IN_PROGRESS) return;
 
     type1 = fruitGrid[row1][col1];
     type2 = fruitGrid[row2][col2];
 
-    if (type1 < 0 || type2 < 0) return;
-
-    /* Allocate two sprite slots */
-    slot1 = match_flight_alloc_slot();
-    if (slot1 == NULL) {
-        /* If we couldn't allocate, fall back to instant swap */
-        s16 tmp = fruitGrid[row1][col1];
-        fruitGrid[row1][col1] = fruitGrid[row2][col2];
-        fruitGrid[row2][col2] = tmp;
-        pendingMatchCheck = TRUE;
-        boardDirty = TRUE;
-        return;
-    }
-
-    /* Mark slot1 active BEFORE allocating slot2 */
-    slot1->active = TRUE;
-
-    slot2 = match_flight_alloc_slot();
-    if (slot2 == NULL) {
-        /* If we couldn't allocate second slot, fall back to instant swap */
-        slot1->active = FALSE;
-        s16 tmp = fruitGrid[row1][col1];
-        fruitGrid[row1][col1] = fruitGrid[row2][col2];
-        fruitGrid[row2][col2] = tmp;
-        pendingMatchCheck = TRUE;
-        boardDirty = TRUE;
-        return;
-    }
-
-    /* Mark slot2 active */
-    slot2->active = TRUE;
-    matchFlightActiveCount += 2;
-    matchFlightInProgress = TRUE;
-
-    swapSprite1Index = (u16)(slot1 - matchFlightSprites);
-    swapSprite2Index = (u16)(slot2 - matchFlightSprites);
-
-    /* Verify indices by finding slots in array (safer than pointer arithmetic) */
-    u16 i;
-    swapSprite1Index = 0xFFFFu;
-    swapSprite2Index = 0xFFFFu;
-    for (i = 0; i < MATCH_FLY_MAX_SPRITES; i++) {
-        if (&matchFlightSprites[i] == slot1) swapSprite1Index = i;
-        if (&matchFlightSprites[i] == slot2) swapSprite2Index = i;
-    }
-    swapCol1 = col1;
-    swapRow1 = row1;
-    swapCol2 = col2;
-    swapRow2 = row2;
-    swapType1 = type1;
-    swapType2 = type2;
+    /* Both empty - nothing to swap */
+    if (type1 < 0 && type2 < 0) return;
 
     /* Swap grid immediately */
     s16 tmp = fruitGrid[row1][col1];
     fruitGrid[row1][col1] = fruitGrid[row2][col2];
     fruitGrid[row2][col2] = tmp;
 
-    /* Erase from background so sprites are visible */
+    /* Erase from background */
     erase_fruit_from_bg((s16)col1, (s16)row1);
     erase_fruit_from_bg((s16)col2, (s16)row2);
 
-    /* Setup slot1: from (col1,row1) to (col2,row2) */
-    s16 startX1 = grid_col_to_px((s16)col1);
-    s16 startY1 = grid_row_to_px((s16)row1);
-    s16 targetX1 = grid_col_to_px((s16)col2);
-    s16 targetY1 = grid_row_to_px((s16)row2);
+    swapCol1 = col1;
+    swapRow1 = row1;
+    swapCol2 = col2;
+    swapRow2 = row2;
+    swapType1 = type1;
+    swapType2 = type2;
+    swapSprite1Index = 0xFFFFu;
+    swapSprite2Index = 0xFFFFu;
 
-    slot1->x = startX1;
-    slot1->y = startY1;
-    slot1->xFp = ((s32)slot1->x) << MATCH_FLY_FP_SHIFT;
-    slot1->yFp = ((s32)slot1->y) << MATCH_FLY_FP_SHIFT;
-    slot1->targetX = targetX1;
-    slot1->targetY = targetY1;
+    /* Only animate fruits, not empty spaces */
+    if (type1 >= 0) {
+        slot1 = match_flight_alloc_slot();
+        if (slot1 != NULL) {
+            slot1->active = TRUE;
+            matchFlightActiveCount++;
 
-    dx = (s32)targetX1 - (s32)startX1;
-    dy = (s32)targetY1 - (s32)startY1;
-    distSq = (u32)((dx * dx) + (dy * dy));
-    dist = isqrt_u32(distSq);
+            s16 startX1 = grid_col_to_px((s16)col1);
+            s16 startY1 = grid_row_to_px((s16)row1);
+            s16 targetX1 = grid_col_to_px((s16)col2);
+            s16 targetY1 = grid_row_to_px((s16)row2);
 
-    if (dist == 0u) {
-        /* Same position - just do instant swap */
-        s16 tmp = fruitGrid[row1][col1];
-        fruitGrid[row1][col1] = fruitGrid[row2][col2];
-        fruitGrid[row2][col2] = tmp;
-        pendingMatchCheck = TRUE;
-        boardDirty = TRUE;
-        return;
+            slot1->x = startX1;
+            slot1->y = startY1;
+            slot1->xFp = ((s32)slot1->x) << MATCH_FLY_FP_SHIFT;
+            slot1->yFp = ((s32)slot1->y) << MATCH_FLY_FP_SHIFT;
+            slot1->targetX = targetX1;
+            slot1->targetY = targetY1;
+
+            dx = (s32)targetX1 - (s32)startX1;
+            dy = (s32)targetY1 - (s32)startY1;
+            distSq = (u32)((dx * dx) + (dy * dy));
+            dist = isqrt_u32(distSq);
+
+            if (dist > 0u) {
+                slot1->velXFp = ((dx * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+                slot1->velYFp = ((dy * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+            } else {
+                slot1->velXFp = 0;
+                slot1->velYFp = 0;
+            }
+
+            slot1->sprite = SPR_addSprite(
+                &food_sprite_mold,
+                startX1,
+                startY1,
+                TILE_ATTR(PAL2, FALSE, FALSE, TRUE)
+            );
+
+            if (slot1->sprite != NULL) {
+                u16 anim = (u16)(type1 >> 3);
+                u16 frame = (u16)(type1 & 7);
+                SPR_setAnim(slot1->sprite, anim);
+                SPR_setAutoAnimation(slot1->sprite, FALSE);
+                SPR_setFrame(slot1->sprite, frame);
+                SPR_setHFlip(slot1->sprite, FALSE);
+                SPR_setVFlip(slot1->sprite, FALSE);
+                SPR_setPosition(slot1->sprite, startX1, startY1);
+            }
+
+            for (i = 0; i < MATCH_FLY_MAX_SPRITES; i++) {
+                if (&matchFlightSprites[i] == slot1) swapSprite1Index = i;
+            }
+        }
     }
 
-    if (dist > 0u) {
-        slot1->velXFp = ((dx * 1) << MATCH_FLY_FP_SHIFT) / (s32)dist;
-        slot1->velYFp = ((dy * 1) << MATCH_FLY_FP_SHIFT) / (s32)dist;
-    } else {
-        slot1->velXFp = 0;
-        slot1->velYFp = 0;
+    if (type2 >= 0) {
+        slot2 = match_flight_alloc_slot();
+        if (slot2 != NULL) {
+            slot2->active = TRUE;
+            matchFlightActiveCount++;
+
+            s16 startX2 = grid_col_to_px((s16)col2);
+            s16 startY2 = grid_row_to_px((s16)row2);
+            s16 targetX2 = grid_col_to_px((s16)col1);
+            s16 targetY2 = grid_row_to_px((s16)row1);
+
+            slot2->x = startX2;
+            slot2->y = startY2;
+            slot2->xFp = ((s32)slot2->x) << MATCH_FLY_FP_SHIFT;
+            slot2->yFp = ((s32)slot2->y) << MATCH_FLY_FP_SHIFT;
+            slot2->targetX = targetX2;
+            slot2->targetY = targetY2;
+
+            dx = (s32)targetX2 - (s32)startX2;
+            dy = (s32)targetY2 - (s32)startY2;
+            distSq = (u32)((dx * dx) + (dy * dy));
+            dist = isqrt_u32(distSq);
+
+            if (dist > 0u) {
+                slot2->velXFp = ((dx * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+                slot2->velYFp = ((dy * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+            } else {
+                slot2->velXFp = 0;
+                slot2->velYFp = 0;
+            }
+
+            slot2->sprite = SPR_addSprite(
+                &food_sprite_mold,
+                startX2,
+                startY2,
+                TILE_ATTR(PAL2, FALSE, FALSE, TRUE)
+            );
+
+            if (slot2->sprite != NULL) {
+                u16 anim = (u16)(type2 >> 3);
+                u16 frame = (u16)(type2 & 7);
+                SPR_setAnim(slot2->sprite, anim);
+                SPR_setAutoAnimation(slot2->sprite, FALSE);
+                SPR_setFrame(slot2->sprite, frame);
+                SPR_setHFlip(slot2->sprite, FALSE);
+                SPR_setVFlip(slot2->sprite, FALSE);
+                SPR_setPosition(slot2->sprite, startX2, startY2);
+            }
+
+            for (i = 0; i < MATCH_FLY_MAX_SPRITES; i++) {
+                if (&matchFlightSprites[i] == slot2) swapSprite2Index = i;
+            }
+        }
     }
 
-    slot1->sprite = SPR_addSprite(
-        &food_sprite_mold,
-        startX1,
-        startY1,
-        TILE_ATTR(PAL2, FALSE, FALSE, TRUE)
-    );
-
-    if (slot1->sprite != NULL) {
-        u16 anim = (u16)(type1 >> 3);
-        u16 frame = (u16)(type1 & 7);
-        SPR_setAnim(slot1->sprite, anim);
-        SPR_setAutoAnimation(slot1->sprite, FALSE);
-        SPR_setFrame(slot1->sprite, frame);
-        SPR_setHFlip(slot1->sprite, FALSE);
-        SPR_setVFlip(slot1->sprite, FALSE);
-        SPR_setPosition(slot1->sprite, startX1, startY1);
-    }
-
-    /* Setup slot2: from (col2,row2) to (col1,row1) */
-    s16 startX2 = grid_col_to_px((s16)col2);
-    s16 startY2 = grid_row_to_px((s16)row2);
-    s16 targetX2 = grid_col_to_px((s16)col1);
-    s16 targetY2 = grid_row_to_px((s16)row1);
-
-    slot2->x = startX2;
-    slot2->y = startY2;
-    slot2->xFp = ((s32)slot2->x) << MATCH_FLY_FP_SHIFT;
-    slot2->yFp = ((s32)slot2->y) << MATCH_FLY_FP_SHIFT;
-    slot2->targetX = targetX2;
-    slot2->targetY = targetY2;
-
-    dx = (s32)targetX2 - (s32)startX2;
-    dy = (s32)targetY2 - (s32)startY2;
-    distSq = (u32)((dx * dx) + (dy * dy));
-    dist = isqrt_u32(distSq);
-
-    if (dist > 0u) {
-        slot2->velXFp = ((dx * 1) << MATCH_FLY_FP_SHIFT) / (s32)dist;
-        slot2->velYFp = ((dy * 1) << MATCH_FLY_FP_SHIFT) / (s32)dist;
-    } else {
-        slot2->velXFp = 0;
-        slot2->velYFp = 0;
-    }
-
-    slot2->sprite = SPR_addSprite(
-        &food_sprite_mold,
-        startX2,
-        startY2,
-        TILE_ATTR(PAL2, FALSE, FALSE, TRUE)
-    );
-
-    if (slot2->sprite != NULL) {
-        u16 anim = (u16)(type2 >> 3);
-        u16 frame = (u16)(type2 & 7);
-        SPR_setAnim(slot2->sprite, anim);
-        SPR_setAutoAnimation(slot2->sprite, FALSE);
-        SPR_setFrame(slot2->sprite, frame);
-        SPR_setHFlip(slot2->sprite, FALSE);
-        SPR_setVFlip(slot2->sprite, FALSE);
-        SPR_setPosition(slot2->sprite, startX2, startY2);
-    }
-
+    matchFlightInProgress = TRUE;
     swapFrameCounter = 0;
-
     swapAnimState = SWAP_ANIM_IN_PROGRESS;
 }
 
@@ -1329,6 +1312,107 @@ bool food_engine_is_swap_animating(void) {
     return swapAnimState == SWAP_ANIM_IN_PROGRESS;
 }
 
+void food_engine_start_move_animation(u16 col1, u16 row1, u16 col2, u16 row2) {
+    s16 type1;
+    s16 type2;
+    s32 dx;
+    s32 dy;
+    u32 distSq;
+    u32 dist;
+    MatchFlightSprite* slot1 = NULL;
+    u16 i;
+
+    if (!is_walkable_cell((s16)col1, (s16)row1) || !is_walkable_cell((s16)col2, (s16)row2)) return;
+    if (swapAnimState == SWAP_ANIM_IN_PROGRESS) return;
+
+    type1 = fruitGrid[row1][col1];
+    type2 = fruitGrid[row2][col2];
+
+    /* Move requires exactly one fruit and one empty space */
+    if ((type1 < 0 && type2 < 0) || (type1 >= 0 && type2 >= 0)) return;
+
+    /* Determine which position has the fruit */
+    s16 fruitCol = (type1 >= 0) ? (s16)col1 : (s16)col2;
+    s16 fruitRow = (type1 >= 0) ? (s16)row1 : (s16)row2;
+    s16 emptyCol = (type1 >= 0) ? (s16)col2 : (s16)col1;
+    s16 emptyRow = (type1 >= 0) ? (s16)row2 : (s16)row1;
+    s16 fruitType = (type1 >= 0) ? type1 : type2;
+
+    /* Update grid immediately */
+    fruitGrid[emptyRow][emptyCol] = fruitType;
+    fruitGrid[fruitRow][fruitCol] = -1;
+
+    /* Erase from background */
+    erase_fruit_from_bg(fruitCol, fruitRow);
+
+    /* Allocate sprite slot */
+    slot1 = match_flight_alloc_slot();
+    if (slot1 == NULL) return;
+
+    slot1->active = TRUE;
+    matchFlightActiveCount++;
+
+    s16 startX = grid_col_to_px(fruitCol);
+    s16 startY = grid_row_to_px(fruitRow);
+    s16 targetX = grid_col_to_px(emptyCol);
+    s16 targetY = grid_row_to_px(emptyRow);
+
+    slot1->x = startX;
+    slot1->y = startY;
+    slot1->xFp = ((s32)slot1->x) << MATCH_FLY_FP_SHIFT;
+    slot1->yFp = ((s32)slot1->y) << MATCH_FLY_FP_SHIFT;
+    slot1->targetX = targetX;
+    slot1->targetY = targetY;
+
+    dx = (s32)targetX - (s32)startX;
+    dy = (s32)targetY - (s32)startY;
+    distSq = (u32)((dx * dx) + (dy * dy));
+    dist = isqrt_u32(distSq);
+
+    if (dist > 0u) {
+        slot1->velXFp = ((dx * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+        slot1->velYFp = ((dy * 2) << MATCH_FLY_FP_SHIFT) / (s32)dist;
+    } else {
+        slot1->velXFp = 0;
+        slot1->velYFp = 0;
+    }
+
+    slot1->sprite = SPR_addSprite(
+        &food_sprite_mold,
+        startX,
+        startY,
+        TILE_ATTR(PAL2, FALSE, FALSE, TRUE)
+    );
+
+    if (slot1->sprite != NULL) {
+        u16 anim = (u16)(fruitType >> 3);
+        u16 frame = (u16)(fruitType & 7);
+        SPR_setAnim(slot1->sprite, anim);
+        SPR_setAutoAnimation(slot1->sprite, FALSE);
+        SPR_setFrame(slot1->sprite, frame);
+        SPR_setHFlip(slot1->sprite, FALSE);
+        SPR_setVFlip(slot1->sprite, FALSE);
+        SPR_setPosition(slot1->sprite, startX, startY);
+    }
+
+    /* Use swap animation tracking for move as well */
+    for (i = 0; i < MATCH_FLY_MAX_SPRITES; i++) {
+        if (&matchFlightSprites[i] == slot1) swapSprite1Index = i;
+    }
+    swapSprite2Index = 0xFFFFu;
+
+    /* Store positions: swapCol1/swapRow1 = old (empty), swapCol2/swapRow2 = new (fruit) */
+    swapCol1 = (u16)fruitCol;
+    swapRow1 = (u16)fruitRow;
+    swapCol2 = (u16)emptyCol;
+    swapRow2 = (u16)emptyRow;
+    swapType1 = -1;           /* Old position becomes empty */
+    swapType2 = fruitType;    /* New position gets fruit */
+
+    matchFlightInProgress = TRUE;
+    swapFrameCounter = 0;
+    swapAnimState = SWAP_ANIM_IN_PROGRESS;
+}
 
 void food_engine_init(void) {
     clear_grid_rows(fruitGrid, -1, 0, GRID_HEIGHT - 1);
@@ -1362,6 +1446,8 @@ void food_engine_init(void) {
     swapType1 = -1;
     swapType2 = -1;
 
+    gravityAnimCount = 0;
+
     foodBgTileBase = TILE_USER_INDEX + border1.tileset->numTile;
     VDP_loadTileSet(&food_tiles, foodBgTileBase, DMA);
     VDP_waitDMACompletion();
@@ -1373,9 +1459,10 @@ void food_engine_update(void) {
 
     currentCellChecks = 0;
 
-    /* If swap is animating, skip gravity/slide/match checks */
+    /* If swap is animating, skip everything */
     if (swapAnimState == SWAP_ANIM_IN_PROGRESS) {
         update_match_flight();
+        update_gravity_animations();
         update_swap_animation();
         if (boardDirty) {
             render_grid_diff();
@@ -1385,9 +1472,19 @@ void food_engine_update(void) {
         return;
     }
 
+    /* If gravity animations are in progress, update them but do NOT render or run any game logic */
+    if (gravityAnimCount > 0) {
+        update_match_flight();
+        update_gravity_animations();
+        /* Do not call render_grid_diff while animating - stamping happens in update_gravity_animations */
+        lastCellChecks = currentCellChecks;
+        return;
+    }
+
     movementFrameCounter++;
 
     update_match_flight();
+    update_gravity_animations();
 
     if (movementFrameCounter >= FRAME_GATE_INTERVAL) {
         movementFrameCounter = 0;
@@ -1400,12 +1497,12 @@ void food_engine_update(void) {
         food_engine_spawn_random();
     }
 
-    if (pendingMatchCheck && movementCheckRan && !gravityMovedThisCheck) {
+    if (pendingMatchCheck && movementCheckRan && !gravityMovedThisCheck && gravityAnimCount == 0) {
         pendingMatchCheck = FALSE;
         (void)resolve_board_cascade();
     }
 
-    if (boardDirty) {
+    if (boardDirty && gravityAnimCount == 0) {
         render_grid_diff();
         boardDirty = FALSE;
     }
@@ -1495,6 +1592,8 @@ void food_engine_cleanup(void) {
     swapAnimState = SWAP_ANIM_NONE;
     swapSprite1Index = 0xFFFFu;
     swapSprite2Index = 0xFFFFu;
+
+    gravityAnimCount = 0;
 
     match_flight_reset_slots();
 }

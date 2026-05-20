@@ -113,23 +113,37 @@ void game_state_update(void) {
 
     /* --- Lock mode enter --- */
     if (aPressed && lockMode == LOCK_NONE) {
-        lockMode      = LOCK_ACTIVE;
-        lockedCol     = quadCol;
-        lockedRow     = quadRow;
-        lockTargetCol = quadCol;
-        lockTargetRow = quadRow;
-        lockTargetX   = quadX;
-        lockTargetY   = quadY;
-        lockDirDx     = 0;
-        lockDirDy     = 0;
-        lockBlinkTick = 0;
+        /* Only allow lock if current cell has a fruit */
+        if (food_engine_get_cell(quadCol, quadRow) >= 0) {
+            lockMode      = LOCK_ACTIVE;
+            lockedCol     = quadCol;
+            lockedRow     = quadRow;
+            lockTargetCol = quadCol;
+            lockTargetRow = quadRow;
+            lockTargetX   = quadX;
+            lockTargetY   = quadY;
+            lockDirDx     = 0;
+            lockDirDy     = 0;
+            lockBlinkTick = 0;
+        }
     }
 
     /* --- Lock mode exit (A released) --- */
     if (aReleased && lockMode == LOCK_ACTIVE) {
         if (lockDirDx != 0 || lockDirDy != 0) {
-            /* Commit swap: start animation */
-            food_engine_start_swap_animation(lockedCol, lockedRow, lockTargetCol, lockTargetRow);
+            /* Determine if this is a swap or move */
+            s16 type1 = food_engine_get_cell(lockedCol, lockedRow);
+            s16 type2 = food_engine_get_cell(lockTargetCol, lockTargetRow);
+
+            if (type1 >= 0 && type2 >= 0) {
+                /* Both cells have fruits - this is a swap */
+                food_engine_start_swap_animation(lockedCol, lockedRow, lockTargetCol, lockTargetRow);
+            } else if ((type1 >= 0 && type2 < 0) || (type1 < 0 && type2 >= 0)) {
+                /* One cell empty, one has fruit - this is a move */
+                food_engine_start_move_animation(lockedCol, lockedRow, lockTargetCol, lockTargetRow);
+            }
+            /* else: both empty or invalid - do nothing */
+
             quadCol = lockTargetCol;
             quadRow = lockTargetRow;
             sync_quad_pos_from_cell();

@@ -58,6 +58,16 @@ void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2);
 bool food_engine_is_swap_animating(void);
 
 /**
+ * @brief Start a move animation - one fruit moves to an adjacent empty space
+ * @param col1 Column of first cell
+ * @param row1 Row of first cell
+ * @param col2 Column of second cell (empty)
+ * @param row2 Row of second cell (empty)
+ * @note One position must have fruit, the other must be empty
+ */
+void food_engine_start_move_animation(u16 col1, u16 row1, u16 col2, u16 row2);
+
+/**
  * @brief Legacy swap (no animation) - should not be used; kept for reference
  * @deprecated Use food_engine_start_swap_animation() instead
  */

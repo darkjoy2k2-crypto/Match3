@@ -1,6 +1,6 @@
 00000000 A __DYNAMIC
-00000000 t _Start_Of_Rom
-00000000 t _Vecteurs_68K
+00000000 t _Start_Of_Rom	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1610
+00000000 t _Vecteurs_68K	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1610
 00000020 a font_pal_default_data_size
 00000020 a food_sprite_mold_palette_data_size
 00000020 a player_quad_palette_data_size
@@ -118,827 +118,848 @@
 00000440 t moreadj
 0000044e t adj
 00000458 t ltuns
-00000468 T button_pressed	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:45
-0000048a T sync_quad_pos_from_cell	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:49
-000004ac T insert_highscore	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:54
-0000052e T u32_to_str	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:77
-000005ac T format_timer	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:98
-0000062e T main	C:\Users\peter\Documents\_Genesis\Match3\Build/src/main.c:7
-000006ca T hold_repeat_input_init	C:\Users\peter\Documents\_Genesis\Match3\Build/src/player_input.c:23
-000006e2 T hold_repeat_input_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/player_input.c:30
-00000792 T sprite_quad_engine_show	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:16
-0000081e T sprite_quad_engine_hide	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:31
-0000083c T sprite_quad_engine_set_position	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:37
-00000862 T sprite_quad_engine_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:43
-0000089a T state_machine_init	C:\Users\peter\Documents\_Genesis\Match3\Build/src/state_machine.c:17
-000008c0 T state_machine_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/state_machine.c:24
-00000968 T gameover_state_enter	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:7
-000009a2 T gameover_state_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:19
-00000ab6 T gameover_state_draw	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:44
-00000bd6 T gameover_state_exit	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:65
-00000bd8 T highscore_state_enter	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:8
-00000bee T highscore_state_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:14
-00000c28 T highscore_state_draw	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:20
-00000d2a T highscore_state_exit	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:49
-00000d2c t draw_mode_line	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:9
-00000d82 T title_state_enter	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:19
-00000e08 T title_state_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:33
-00000eaa T title_state_draw	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:56
-00000eac T title_state_exit	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:59
-00000eae T TSK_init
-00000ed4 t .loop
-00000edc T TSK_superPost
-00000ef2 t no_task
-00000ef4 T TSK_userYield
-00000efc t userYield
-00000f26 T _trap_0
-00000f4a T flushQueue
-00000f5e t .fq_loop
-00000f6c t .fq_end
-00000f6e T KDebug_Alert
-00000f8a T memset_
-00001002 T memsetU16
-00001060 T memcpy_
-00001104 T SYS_setInterruptMaskLevel
-0000111c T SYS_getAndSetInterruptMaskLevel
-00001136 T aplib_unpack
-0000113c t aplib_decrunch
-00001150 t .copy_byte
-00001152 t .next_sequence_init
-00001154 t .next_sequence
-00001164 t .get_3_bits
-00001174 t .write_byte
-00001178 t .short_match
-00001186 t .code_pair
-00001192 t .normal_code_pair
-000011a0 t .compare_1280
-000011a4 t .compare_128
-000011a8 t .domatch_with_2inc
-000011aa t .domatch_with_inc
-000011ac t .domatch_new_lastpos
-000011ae t .copy_code_pair
-000011b4 t .loop_do_copy
-000011be t .get_bit
-000011c6 t .still_bits_left
-000011c8 t .decode_gamma
-000011ca t .get_more_gamma
-000011d4 t .end_decrunch
-000011de T lz4w_unpack
-000011e4 t lz4w_unpack_a
-000011fe t .jump_table
-000016fc t .lmr_len_01
-00001810 t .lmr_len_00
-00001a22 t .lm_len_00
-00001a28 t .next
-00001a38 t .litE_mat0
-00001a3a t .litC_mat0
-00001a3c t .litA_mat0
-00001a3e t .lit8_mat0
-00001a40 t .lit6_mat0
-00001a42 t .lit4_mat0
-00001a44 t .lit2_mat0
-00001a4a t .long_match_1
-00001a5c t .litF_mat0
-00001a5e t .litD_mat0
-00001a60 t .litB_mat0
-00001a62 t .lit9_mat0
-00001a64 t .lit7_mat0
-00001a66 t .lit5_mat0
-00001a68 t .lit3_mat0
-00001a6a t .lit1_mat0
-00001a70 t .long_match_2
-00001a82 t .lit0_mat0
-00001a86 t .long_match_3
-00001a98 t .lm_rom
-00001aa4 t .done
-00001aaa t .no_byte
-00001ab4 t .lmr_jump_table
-00001eb4 t .litE_mat1
-00001eb6 t .litC_mat1
-00001eb8 t .litA_mat1
-00001eba t .lit8_mat1
-00001ebc t .lit6_mat1
-00001ebe t .lit4_mat1
-00001ec0 t .lit2_mat1
-00001ec2 t .lit0_mat1
-00001ee0 t .litF_mat1
-00001ee2 t .litD_mat1
-00001ee4 t .litB_mat1
-00001ee6 t .lit9_mat1
-00001ee8 t .lit7_mat1
-00001eea t .lit5_mat1
-00001eec t .lit3_mat1
-00001eee t .lit1_mat1
-00001f0e t .litE_mat2
-00001f10 t .litC_mat2
-00001f12 t .litA_mat2
-00001f14 t .lit8_mat2
-00001f16 t .lit6_mat2
-00001f18 t .lit4_mat2
-00001f1a t .lit2_mat2
-00001f1c t .lit0_mat2
-00001f3c t .litF_mat2
-00001f3e t .litD_mat2
-00001f40 t .litB_mat2
-00001f42 t .lit9_mat2
-00001f44 t .lit7_mat2
-00001f46 t .lit5_mat2
-00001f48 t .lit3_mat2
-00001f4a t .lit1_mat2
-00001f6c t .litE_mat3
-00001f6e t .litC_mat3
-00001f70 t .litA_mat3
-00001f72 t .lit8_mat3
-00001f74 t .lit6_mat3
-00001f76 t .lit4_mat3
-00001f78 t .lit2_mat3
-00001f7a t .lit0_mat3
-00001f9c t .litF_mat3
-00001f9e t .litD_mat3
-00001fa0 t .litB_mat3
-00001fa2 t .lit9_mat3
-00001fa4 t .lit7_mat3
-00001fa6 t .lit5_mat3
-00001fa8 t .lit3_mat3
-00001faa t .lit1_mat3
-00001fce t .litE_mat4
-00001fd0 t .litC_mat4
-00001fd2 t .litA_mat4
-00001fd4 t .lit8_mat4
-00001fd6 t .lit6_mat4
-00001fd8 t .lit4_mat4
-00001fda t .lit2_mat4
-00001fdc t .lit0_mat4
-00002000 t .litF_mat4
+00000468 t is_walkable_cell	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:122
+000004a6 t isqrt_u32	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:165
+000004e8 t match_flight_alloc_slot	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:210
+00000514 t random_u16	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:333
+0000053c t refill_spawn_bag_for_col	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:363
+000005de t next_spawn_fruit_for_col	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:380
+00000630 t top_spawn_would_create_match	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:388
+0000075c t clear_grid_rows	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:511
+000007aa t clear_u8_grid	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:526
+000007d2 t mark_all_matches	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:900
+000009be t match_flight_reset_slots	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:187
+00000a2a t update_match_flight	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:281
+00000b38 t erase_fruit_from_bg	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:147
+00000b9c t draw_fruit_to_bg	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:128
+00000c50 t render_grid_diff	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1071
+00000d08 t update_gravity_animations	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:639
+00000e9c t try_place	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:712
+000012f2 T food_engine_start_swap_animation	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1156
+000017aa T food_engine_start_move_animation	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1315
+00001a7a T food_engine_init	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1417
+00001cca T food_engine_spawn_random	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1515
+00001ec2 T food_engine_update	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1456
 00002000 a food_tiles_data_size
-00002002 t .litD_mat4
-00002004 t .litB_mat4
-00002006 t .lit9_mat4
-00002008 t .lit7_mat4
-0000200a t .lit5_mat4
-0000200c t .lit3_mat4
-0000200e t .lit1_mat4
-00002034 t .litE_mat5
-00002036 t .litC_mat5
-00002038 t .litA_mat5
-0000203a t .lit8_mat5
-0000203c t .lit6_mat5
-0000203e t .lit4_mat5
-00002040 t .lit2_mat5
-00002042 t .lit0_mat5
-00002068 t .litF_mat5
-0000206a t .litD_mat5
-0000206c t .litB_mat5
-0000206e t .lit9_mat5
-00002070 t .lit7_mat5
-00002072 t .lit5_mat5
-00002074 t .lit3_mat5
-00002076 t .lit1_mat5
-0000209e t .litE_mat6
-000020a0 t .litC_mat6
-000020a2 t .litA_mat6
-000020a4 t .lit8_mat6
-000020a6 t .lit6_mat6
-000020a8 t .lit4_mat6
-000020aa t .lit2_mat6
-000020ac t .lit0_mat6
-000020d4 t .litF_mat6
-000020d6 t .litD_mat6
-000020d8 t .litB_mat6
-000020da t .lit9_mat6
-000020dc t .lit7_mat6
-000020de t .lit5_mat6
-000020e0 t .lit3_mat6
-000020e2 t .lit1_mat6
-0000210c t .litE_mat7
-0000210e t .litC_mat7
-00002110 t .litA_mat7
-00002112 t .lit8_mat7
-00002114 t .lit6_mat7
-00002116 t .lit4_mat7
-00002118 t .lit2_mat7
-0000211a t .lit0_mat7
-00002144 t .litF_mat7
-00002146 t .litD_mat7
-00002148 t .litB_mat7
-0000214a t .lit9_mat7
-0000214c t .lit7_mat7
-0000214e t .lit5_mat7
-00002150 t .lit3_mat7
-00002152 t .lit1_mat7
-0000217e t .litE_mat8
-00002180 t .litC_mat8
-00002182 t .litA_mat8
-00002184 t .lit8_mat8
-00002186 t .lit6_mat8
-00002188 t .lit4_mat8
-0000218a t .lit2_mat8
-0000218c t .lit0_mat8
-000021b8 t .litF_mat8
-000021ba t .litD_mat8
-000021bc t .litB_mat8
-000021be t .lit9_mat8
-000021c0 t .lit7_mat8
-000021c2 t .lit5_mat8
-000021c4 t .lit3_mat8
-000021c6 t .lit1_mat8
-000021f4 t .litE_mat9
-000021f6 t .litC_mat9
-000021f8 t .litA_mat9
-000021fa t .lit8_mat9
-000021fc t .lit6_mat9
-000021fe t .lit4_mat9
-00002200 t .lit2_mat9
-00002202 t .lit0_mat9
-00002230 t .litF_mat9
-00002232 t .litD_mat9
-00002234 t .litB_mat9
-00002236 t .lit9_mat9
-00002238 t .lit7_mat9
-0000223a t .lit5_mat9
-0000223c t .lit3_mat9
-0000223e t .lit1_mat9
-0000226e t .litE_matA
-00002270 t .litC_matA
-00002272 t .litA_matA
-00002274 t .lit8_matA
-00002276 t .lit6_matA
-00002278 t .lit4_matA
-0000227a t .lit2_matA
-0000227c t .lit0_matA
-000022ac t .litF_matA
-000022ae t .litD_matA
-000022b0 t .litB_matA
-000022b2 t .lit9_matA
-000022b4 t .lit7_matA
-000022b6 t .lit5_matA
-000022b8 t .lit3_matA
-000022ba t .lit1_matA
-000022ec t .litE_matB
-000022ee t .litC_matB
-000022f0 t .litA_matB
-000022f2 t .lit8_matB
-000022f4 t .lit6_matB
-000022f6 t .lit4_matB
-000022f8 t .lit2_matB
-000022fa t .lit0_matB
-0000232c t .litF_matB
-0000232e t .litD_matB
-00002330 t .litB_matB
-00002332 t .lit9_matB
-00002334 t .lit7_matB
-00002336 t .lit5_matB
-00002338 t .lit3_matB
-0000233a t .lit1_matB
-0000236e t .litE_matC
-00002370 t .litC_matC
-00002372 t .litA_matC
-00002374 t .lit8_matC
-00002376 t .lit6_matC
-00002378 t .lit4_matC
-0000237a t .lit2_matC
-0000237c t .lit0_matC
-000023b0 t .litF_matC
-000023b2 t .litD_matC
-000023b4 t .litB_matC
-000023b6 t .lit9_matC
-000023b8 t .lit7_matC
-000023ba t .lit5_matC
-000023bc t .lit3_matC
-000023be t .lit1_matC
-000023f4 t .litE_matD
-000023f6 t .litC_matD
-000023f8 t .litA_matD
-000023fa t .lit8_matD
-000023fc t .lit6_matD
-000023fe t .lit4_matD
-00002400 t .lit2_matD
-00002402 t .lit0_matD
-00002438 t .litF_matD
-0000243a t .litD_matD
-0000243c t .litB_matD
-0000243e t .lit9_matD
-00002440 t .lit7_matD
-00002442 t .lit5_matD
-00002444 t .lit3_matD
-00002446 t .lit1_matD
-0000247e t .litE_matE
-00002480 t .litC_matE
-00002482 t .litA_matE
-00002484 t .lit8_matE
-00002486 t .lit6_matE
-00002488 t .lit4_matE
-0000248a t .lit2_matE
-0000248c t .lit0_matE
-000024c4 t .litF_matE
-000024c6 t .litD_matE
-000024c8 t .litB_matE
-000024ca t .lit9_matE
-000024cc t .lit7_matE
-000024ce t .lit5_matE
-000024d0 t .lit3_matE
-000024d2 t .lit1_matE
-0000250c t .litE_matF
-0000250e t .litC_matF
-00002510 t .litA_matF
-00002512 t .lit8_matF
-00002514 t .lit6_matF
-00002516 t .lit4_matF
-00002518 t .lit2_matF
-0000251a t .lit0_matF
-00002554 t .litF_matF
-00002556 t .litD_matF
-00002558 t .litB_matF
-0000255a t .lit9_matF
-0000255c t .lit7_matF
-0000255e t .lit5_matF
-00002560 t .lit3_matF
-00002562 t .lit1_matF
-000025a0 t VDP_getPlaneAddress
-00002652 t draw_fruit_to_bg
-000027ec t erase_fruit_from_bg
-00002946 t match_flight_reset_slots
-000029c0 t refill_spawn_bag_for_col
-00002ade t top_spawn_would_create_match
-00002c54 t try_place
-00002dd2 t mark_all_matches
-00003128 t render_grid_diff
-0000339c t update_match_flight.part.0
-00003508 t DMA_queueDmaFast
-00003656 t DMA_doDmaFast
-000037e6 t DMA_doCPUCopyDirect
-0000392a t DMA_doCPUCopy
-000039e4 t externalIntCB
-00003b24 t _extint_dummy_callback
-00003b26 t read6Btn
-00003c6e t readMouse
-00004076 t readTeamPlayer
-00004848 t readLightgun
-00004dc8 t readTrackball
-00004ffc t MEM_alloc
-000050d2 t DMA_setBufferSize
-0000512a t MEM_pack
-00005192 t SPR_releaseSprite
-0000524c t _int_callback
-0000524e t _vblank_dummy_callback
-00005250 t _vint_dummy_callback
-00005252 t _hint_dummy_callback
-00005254 t XGM_unloadDriver
-0000526c t XGM2_unloadDriver
-00005274 t SND_DPCM2_unloadDriver
-00005274 t SND_PCM_unloadDriver
-00005274 t SND_PCM4_unloadDriver
-00005276 t YM2612_reset
-00005682 t setNextXFrame.constprop.0
-000056d0 t DMA_initEx.constprop.0
-0000574c t VDP_setTileMapDataEx.constprop.0
-00005820 t VRAM_alloc.constprop.0
-000058ee t SPR_defragVRAM
-000059da t SPR_addSpriteEx.constprop.0
-00005bfc t PAL_doFadeStep
-00005c16 t SPR_end
-00005d36 t setTileMapDataColumnEx.constprop.0
-00005ea0 t VDP_setTileMapDataRectEx.constprop.0
-0000616a t JOY_update
-00006632 t Z80_clear
-000066f4 t Z80_upload
-0000680e t Z80_loadDriverInternal
-0000691e t getAccess
-00006a6e t setFMVolume
-00006b06 t setPSGVolume
-00006b9e t setMusicTempo.constprop.0
-00006c34 t setLoopNumber.constprop.0
-00006c82 t Z80_upload.constprop.0
-00006d5e t Z80_upload.constprop.1
-00006e3a t SND_NULL_loadDriver
-00006f32 t VDP_waitVBlank
-000070dc T SPR_setPosition
-00007126 T SPR_setFrame
-00007148 T SPR_setAutoAnimation
-00007174 T SPR_setAnim
-000071ae T SPR_addSprite
-000071cc T VDP_clearPlane
-000075ea T VDP_setAutoInc
-00007604 T VDP_setTextPalette
-00007628 T game_state_update
-0000a4c6 T game_state_exit
-0000a5ba T BMP_doVBlankProcess
-0000a5c4 T JOY_readJoypad
-0000a640 T memset
-0000a65a t XGM2_loadDriver
-0000a7da t Z80_loadDriver
-0000a8bc t Z80_init
-0000a922 t XGM2_stop
-0000a9a8 t XGM2_pause
-0000aa1a t SYS_doVBlankProcessEx.constprop.0
-0000af5e T SYS_doVBlankProcess
-0000af62 t waitSubTick.part.0
-0000b120 t XGM_loadDriver
-0000b3ce t SND_DPCM2_loadDriver
-0000b576 t SND_PCM_loadDriver
-0000b71e t SND_PCM4_loadDriver
-0000b8ce t SPR_initEx.constprop.0
-0000bb16 T memcpy
-0000bb26 t DMA_transfer.isra.0
-0000bdae t VDP_loadTileSet
-0000c08e t updateMapsAddress
-0000c116 t VDP_setReg.constprop.0
-0000c130 t JOY_setSupport
-0000c154 t JOY_reset
-0000c9f2 T JOY_init
-0000c9fc T PAL_setColor
-0000ca20 T PAL_setPalette
-0000cbf8 T SPR_init
-0000cbfc T SPR_update
-0000d40e T strcat
-0000d42a T SYS_showFrameLoad
-0000d4fe T VDP_setScreenHeight240
-0000d530 T VDP_setScreenWidth320
-0000d568 T VDP_loadFont
-0000d856 T VDP_drawText
-0000d9da T game_state_enter
-0000e41a t VDP_resetScreen
-0000e658 t VDP_init
-0000e780 t internal_reset
-0000e8c2 T _start_entry
-0000e9ae T _reset_entry
-0000e9c8 T VDP_clearTextArea
-0000eb3c T game_state_draw
-0000eba0 T XGM_doVBlankProcess
-0000ec0c T MDDBG__SymbolDataPtr
-0000ec10 t __ErrorHandler
-0000ec10 t MDDBG__ErrorHandler
-0000ed38 t MDDBG__Error_IdleLoop
-0000ed52 t MDDBG__Error_InitConsole
-0000ed5e t MDDBG__Error_MaskStackBoundaries
-0000edc8 t MDDBG__Error_DrawOffsetLocation
-0000edcc t MDDBG__Error_DrawOffsetLocation2
-0000edd2 t MDDBG__Error_DrawOffsetLocation__inj
-0000ee60 t MDDBG__ErrorHandler_SetupVDP
-0000ee96 t MDDBG__ErrorHandler_VDPConfig
-0000eeac t MDDBG__ErrorHandler_VDPConfig_Nametables
-0000eee8 t MDDBG__ErrorHandler_ConsoleConfig_Initial
-0000eeec t MDDBG__ErrorHandler_ConsoleConfig_Shared
-0000ef1c t MDDBG__Str_OffsetLocation_24bit
-0000ef25 t MDDBG__Str_OffsetLocation_32bit
-0000ef60 t MDDBG__Art1bpp_Font
-0000f25a t MDDBG__GetSymbolByOffset
-0000f574 t MDDBG__FormatString
-0000f64e t MDDBG__Console_Init
-0000f68c t MDDBG__Console_Reset
-0000f68e t MDDBG__Console_InitShared
-0000f6d8 t MDDBG__Console_SetPosAsXY_Stack
-0000f6de t MDDBG__Console_SetPosAsXY
-0000f712 t MDDBG__Console_GetPosAsXY
-0000f738 t MDDBG__Console_StartNewLine
-0000f766 t MDDBG__Console_SetBasePattern
-0000f782 t MDDBG__Console_SetWidth
-0000f7a0 t MDDBG__Console_WriteLine_WithPattern
-0000f7a2 t MDDBG__Console_WriteLine
-0000f7a6 t MDDBG__Console_Write
-0000f86c t MDDBG__Console_WriteLine_Formatted
-0000f870 t MDDBG__Console_Write_Formatted
-0000f8a0 t MDDBG__Decomp1bpp
-0000f8bc t MDDBG__KDebug_WriteLine_Formatted
-0000f8c0 t MDDBG__KDebug_Write_Formatted
-0000f914 t MDDBG__KDebug_FlushLine
-0000f91e t MDDBG__KDebug_WriteLine
-0000f922 t MDDBG__KDebug_Write
-0000f950 t MDDBG__ErrorHandler_ConsoleOnly
-0000f976 t MDDBG__ErrorHandler_ClearConsole
-0000f9a0 t MDDBG__ErrorHandler_PauseConsole
-0000f9da t MDDBG__ErrorHandler_PagesController
-0000fa3a t MDDBG__VSync
-0000fa74 t MDDBG__ErrorHandler_ExtraDebuggerList
-0000fa80 t MDDBG__Debugger_AddressRegisters
-0000facc t MDDBG__Debugger_Backtrace
-0000fb6a T _Bus_Error
-0000fb6a t MDDBG__BusError
-0000fb7e T _Address_Error
-0000fb7e t MDDBG__AddressError
-0000fb96 T _Illegal_Instruction
-0000fb96 t MDDBG__IllegalInstr
-0000fbb4 T _Zero_Divide
-0000fbb4 t MDDBG__ZeroDivide
-0000fbca T _Chk_Instruction
-0000fbca t MDDBG__ChkInstr
-0000fbe4 T _Trapv_Instruction
-0000fbe4 t MDDBG__TrapvInstr
-0000fc00 T _Privilege_Violation
-0000fc00 t MDDBG__PrivilegeViol
-0000fc1e T _Trace
-0000fc1e t MDDBG__Trace
-0000fc2e T _Line_1010_Emulation
-0000fc2e t MDDBG__Line1010Emu
-0000fc4a T _Line_1111_Emulation
-0000fc4a t MDDBG__Line1111Emu
-0000fc66 T _Error_Exception
-0000fc66 t MDDBG__ErrorExcept
-0000fd00 T smp_null
-0000fe00 T smp_null_dpcm
-0000fe80 T __udivsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:469
-0000fe80 T __udivsi3_internal	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:469
-0000fea8 t L3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:486
-0000feaa t L4	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:487
-0000fed6 t L5	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:508
-0000fed8 t L6	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:510
-0000fedc T __divsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:547
-0000fedc T __divsi3_internal	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:547
-0000feea t L1	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:558
-0000fef4 t L2	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:567
-0000ff06 t L3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:576
-0000ff0c T __umodsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:585
-0000ff3c T __modsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:611
-0000ff6c T __mulsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:442
-0000ff6c T __mulsi3_internal	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:442
-0000ff90 T __CTOR_LIST__
-0000ff98 T __CTOR_END__
-0000ff98 T __DTOR_LIST__
-0000ffa0 T __DTOR_END__
-0000ffa0 t border1_tileset
-0000ffa8 t border1_tilemap
-0000ffb2 t border1_palette
-0000ffb8 T border1
-0000ffc4 T food_tiles
-0000ffcc t food_sprite_mold_palette
-0000ffd2 t food_sprite_mold_animation0_frame0_tileset
-0000ffda t food_sprite_mold_animation0_frame0
-0000ffea t food_sprite_mold_animation0_frame1_tileset
-0000fff2 t food_sprite_mold_animation0_frame1
-00010002 t food_sprite_mold_animation0_frame2_tileset
-0001000a t food_sprite_mold_animation0_frame2
-0001001a t food_sprite_mold_animation0_frame3_tileset
-00010022 t food_sprite_mold_animation0_frame3
-00010032 t food_sprite_mold_animation0_frame4_tileset
-0001003a t food_sprite_mold_animation0_frame4
-0001004a t food_sprite_mold_animation0_frame5_tileset
-00010052 t food_sprite_mold_animation0_frame5
-00010062 t food_sprite_mold_animation0_frame6_tileset
-0001006a t food_sprite_mold_animation0_frame6
-0001007a t food_sprite_mold_animation0_frame7_tileset
-00010082 t food_sprite_mold_animation0_frame7
-00010092 t food_sprite_mold_animation0_frames
-000100b2 t food_sprite_mold_animation0
-000100b8 t food_sprite_mold_animation1_frame0_tileset
-000100c0 t food_sprite_mold_animation1_frame0
-000100d0 t food_sprite_mold_animation1_frame1_tileset
-000100d8 t food_sprite_mold_animation1_frame1
-000100e8 t food_sprite_mold_animation1_frame2_tileset
-000100f0 t food_sprite_mold_animation1_frame2
-00010100 t food_sprite_mold_animation1_frame3_tileset
-00010108 t food_sprite_mold_animation1_frame3
-00010118 t food_sprite_mold_animation1_frame4_tileset
-00010120 t food_sprite_mold_animation1_frame4
-00010130 t food_sprite_mold_animation1_frame5_tileset
-00010138 t food_sprite_mold_animation1_frame5
-00010148 t food_sprite_mold_animation1_frame6_tileset
-00010150 t food_sprite_mold_animation1_frame6
-00010160 t food_sprite_mold_animation1_frame7_tileset
-00010168 t food_sprite_mold_animation1_frame7
-00010178 t food_sprite_mold_animation1_frames
-00010198 t food_sprite_mold_animation1
-0001019e t food_sprite_mold_animation2_frame0_tileset
-000101a6 t food_sprite_mold_animation2_frame0
-000101b6 t food_sprite_mold_animation2_frame1_tileset
-000101be t food_sprite_mold_animation2_frame1
-000101ce t food_sprite_mold_animation2_frame2_tileset
-000101d6 t food_sprite_mold_animation2_frame2
-000101e6 t food_sprite_mold_animation2_frame3_tileset
-000101ee t food_sprite_mold_animation2_frame3
-000101fe t food_sprite_mold_animation2_frame4_tileset
-00010206 t food_sprite_mold_animation2_frame4
-00010216 t food_sprite_mold_animation2_frame5_tileset
-0001021e t food_sprite_mold_animation2_frame5
-0001022e t food_sprite_mold_animation2_frame6_tileset
-00010236 t food_sprite_mold_animation2_frame6
-00010246 t food_sprite_mold_animation2_frame7_tileset
-0001024e t food_sprite_mold_animation2_frame7
-0001025e t food_sprite_mold_animation2_frames
-0001027e t food_sprite_mold_animation2
-00010284 t food_sprite_mold_animation3_frame0_tileset
-0001028c t food_sprite_mold_animation3_frame0
-0001029c t food_sprite_mold_animation3_frame1_tileset
-000102a4 t food_sprite_mold_animation3_frame1
-000102b4 t food_sprite_mold_animation3_frame2_tileset
-000102bc t food_sprite_mold_animation3_frame2
-000102cc t food_sprite_mold_animation3_frame3_tileset
-000102d4 t food_sprite_mold_animation3_frame3
-000102e4 t food_sprite_mold_animation3_frame4_tileset
-000102ec t food_sprite_mold_animation3_frame4
-000102fc t food_sprite_mold_animation3_frame5_tileset
-00010304 t food_sprite_mold_animation3_frame5
-00010314 t food_sprite_mold_animation3_frame6_tileset
-0001031c t food_sprite_mold_animation3_frame6
-0001032c t food_sprite_mold_animation3_frame7_tileset
-00010334 t food_sprite_mold_animation3_frame7
-00010344 t food_sprite_mold_animation3_frames
-00010364 t food_sprite_mold_animation3
-0001036a t food_sprite_mold_animation4_frame0_tileset
-00010372 t food_sprite_mold_animation4_frame0
-00010382 t food_sprite_mold_animation4_frame1_tileset
-0001038a t food_sprite_mold_animation4_frame1
-0001039a t food_sprite_mold_animation4_frame2_tileset
-000103a2 t food_sprite_mold_animation4_frame2
-000103b2 t food_sprite_mold_animation4_frame3_tileset
-000103ba t food_sprite_mold_animation4_frame3
-000103ca t food_sprite_mold_animation4_frame4_tileset
-000103d2 t food_sprite_mold_animation4_frame4
-000103e2 t food_sprite_mold_animation4_frame5_tileset
-000103ea t food_sprite_mold_animation4_frame5
-000103fa t food_sprite_mold_animation4_frame6_tileset
-00010402 t food_sprite_mold_animation4_frame6
-00010412 t food_sprite_mold_animation4_frame7_tileset
-0001041a t food_sprite_mold_animation4_frame7
-0001042a t food_sprite_mold_animation4_frames
-0001044a t food_sprite_mold_animation4
-00010450 t food_sprite_mold_animation5_frame0_tileset
-00010458 t food_sprite_mold_animation5_frame0
-00010468 t food_sprite_mold_animation5_frame1_tileset
-00010470 t food_sprite_mold_animation5_frame1
-00010480 t food_sprite_mold_animation5_frame2_tileset
-00010488 t food_sprite_mold_animation5_frame2
-00010498 t food_sprite_mold_animation5_frame3_tileset
-000104a0 t food_sprite_mold_animation5_frame3
-000104b0 t food_sprite_mold_animation5_frame4_tileset
-000104b8 t food_sprite_mold_animation5_frame4
-000104c8 t food_sprite_mold_animation5_frame5_tileset
-000104d0 t food_sprite_mold_animation5_frame5
-000104e0 t food_sprite_mold_animation5_frame6_tileset
-000104e8 t food_sprite_mold_animation5_frame6
-000104f8 t food_sprite_mold_animation5_frame7_tileset
-00010500 t food_sprite_mold_animation5_frame7
-00010510 t food_sprite_mold_animation5_frames
-00010530 t food_sprite_mold_animation5
-00010536 t food_sprite_mold_animation6_frame0_tileset
-0001053e t food_sprite_mold_animation6_frame0
-0001054e t food_sprite_mold_animation6_frame1_tileset
-00010556 t food_sprite_mold_animation6_frame1
-00010566 t food_sprite_mold_animation6_frame2_tileset
-0001056e t food_sprite_mold_animation6_frame2
-0001057e t food_sprite_mold_animation6_frame3_tileset
-00010586 t food_sprite_mold_animation6_frame3
-00010596 t food_sprite_mold_animation6_frame4_tileset
-0001059e t food_sprite_mold_animation6_frame4
-000105ae t food_sprite_mold_animation6_frame5_tileset
-000105b6 t food_sprite_mold_animation6_frame5
-000105c6 t food_sprite_mold_animation6_frame6_tileset
-000105ce t food_sprite_mold_animation6_frame6
-000105de t food_sprite_mold_animation6_frame7_tileset
-000105e6 t food_sprite_mold_animation6_frame7
-000105f6 t food_sprite_mold_animation6_frames
-00010616 t food_sprite_mold_animation6
-0001061c t food_sprite_mold_animation7_frame0_tileset
-00010624 t food_sprite_mold_animation7_frame0
-00010634 t food_sprite_mold_animation7_frame1_tileset
-0001063c t food_sprite_mold_animation7_frame1
-0001064c t food_sprite_mold_animation7_frame2_tileset
-00010654 t food_sprite_mold_animation7_frame2
-00010664 t food_sprite_mold_animation7_frame3_tileset
-0001066c t food_sprite_mold_animation7_frame3
-0001067c t food_sprite_mold_animation7_frame4_tileset
-00010684 t food_sprite_mold_animation7_frame4
-00010694 t food_sprite_mold_animation7_frame5_tileset
-0001069c t food_sprite_mold_animation7_frame5
-000106ac t food_sprite_mold_animation7_frame6_tileset
-000106b4 t food_sprite_mold_animation7_frame6
-000106c4 t food_sprite_mold_animation7_frame7_tileset
-000106cc t food_sprite_mold_animation7_frame7
-000106dc t food_sprite_mold_animation7_frames
-000106fc t food_sprite_mold_animation7
-00010702 t food_sprite_mold_animations
-00010722 T food_sprite_mold
-00010734 t player_quad_palette
-0001073a t player_quad_animation0_frame0_tileset
-00010742 t player_quad_animation0_frame0
-00010752 t player_quad_animation0_frames
-00010756 t player_quad_animation0
-0001075c t player_quad_animations
-00010760 T player_quad
-00010772 t arrow_sprite_animation0_frame0_tileset
-0001077a t arrow_sprite_animation0_frame0
-0001078a t arrow_sprite_animation0_frame1_tileset
-00010792 t arrow_sprite_animation0_frame1
-000107a2 t arrow_sprite_animation0_frame2_tileset
-000107aa t arrow_sprite_animation0_frame2
-000107ba t arrow_sprite_animation0_frame3_tileset
-000107c2 t arrow_sprite_animation0_frame3
-000107d2 t arrow_sprite_animation0_frames
-000107e2 t arrow_sprite_animation0
-000107e8 t arrow_sprite_animations
-000107ec T arrow_sprite
-00010904 t tab_vol
-00011904 t psgVolTable
-00011968 t fmVolTable
-000119cc t palette_blue
-000119ec t palette_green
-00011a0c t palette_red
-00011a2c t palette_grey
-00011a4c t visibilityMask.0
-00011a6e t xlt.1
-00011a76 t xlt_all.0
-00011a86 t topRowSpawnCols
-00011a92 t bottleMaskRows
-00011ad0 t stateTable	C:\Users\peter\Documents\_Genesis\Match3\Build/src/state_machine.c:10
-00011c04 t sgdk_logo_palette
-00011c0a T sgdk_logo
-00011c18 T font_default
-00011c20 T font_pal_default
-00011c26 T drv_null
-00011c60 T drv_xgm
-00013360 T drv_dpcm2
-00014160 T drv_pcm
-00014c90 T drv_pcm4
-000156fe T drv_xgm2
-00017700 T __INIT_SECTION__
-00017702 T __FINI_SECTION__
-00017704 T _etext
-00017704 t border1_palette_data
-00017784 t food_sprite_mold_palette_data
-000177a4 t player_quad_palette_data
-000177c4 t sgdk_logo_palette_data
-000177e4 t font_pal_default_data
-00017804 T stop_xgm
-000178b0 t font_default_data
-00017b12 t sgdk_logo_data
-00017f4c t border1_tilemap_data
-0001805c t border1_tileset_data
-000182ce t food_tiles_data
-0001a2ce t food_sprite_mold_animation0_frame0_tileset_data
-0001a34e t food_sprite_mold_animation0_frame1_tileset_data
-0001a3ce t food_sprite_mold_animation0_frame2_tileset_data
-0001a44e t food_sprite_mold_animation0_frame3_tileset_data
-0001a4ce t food_sprite_mold_animation0_frame4_tileset_data
-0001a54e t food_sprite_mold_animation0_frame5_tileset_data
-0001a5ce t food_sprite_mold_animation0_frame6_tileset_data
-0001a64e t food_sprite_mold_animation0_frame7_tileset_data
-0001a6ce t food_sprite_mold_animation1_frame0_tileset_data
-0001a74e t food_sprite_mold_animation1_frame1_tileset_data
-0001a7ce t food_sprite_mold_animation1_frame2_tileset_data
-0001a84e t food_sprite_mold_animation1_frame3_tileset_data
-0001a8ce t food_sprite_mold_animation1_frame4_tileset_data
-0001a94e t food_sprite_mold_animation1_frame5_tileset_data
-0001a9ce t food_sprite_mold_animation1_frame6_tileset_data
-0001aa4e t food_sprite_mold_animation1_frame7_tileset_data
-0001aace t food_sprite_mold_animation2_frame0_tileset_data
-0001ab4e t food_sprite_mold_animation2_frame1_tileset_data
-0001abce t food_sprite_mold_animation2_frame2_tileset_data
-0001ac4e t food_sprite_mold_animation2_frame3_tileset_data
-0001acce t food_sprite_mold_animation2_frame4_tileset_data
-0001ad4e t food_sprite_mold_animation2_frame5_tileset_data
-0001adce t food_sprite_mold_animation2_frame6_tileset_data
-0001ae0e t food_sprite_mold_animation2_frame7_tileset_data
-0001ae8e t food_sprite_mold_animation3_frame0_tileset_data
-0001af0e t food_sprite_mold_animation3_frame1_tileset_data
-0001af8e t food_sprite_mold_animation3_frame2_tileset_data
-0001b00e t food_sprite_mold_animation3_frame3_tileset_data
-0001b08e t food_sprite_mold_animation3_frame4_tileset_data
-0001b10e t food_sprite_mold_animation3_frame5_tileset_data
-0001b18e t food_sprite_mold_animation3_frame6_tileset_data
-0001b20e t food_sprite_mold_animation3_frame7_tileset_data
-0001b28e t food_sprite_mold_animation4_frame0_tileset_data
-0001b30e t food_sprite_mold_animation4_frame1_tileset_data
-0001b38e t food_sprite_mold_animation4_frame2_tileset_data
-0001b40e t food_sprite_mold_animation4_frame3_tileset_data
-0001b48e t food_sprite_mold_animation4_frame4_tileset_data
-0001b50e t food_sprite_mold_animation4_frame5_tileset_data
-0001b58e t food_sprite_mold_animation4_frame6_tileset_data
-0001b60e t food_sprite_mold_animation4_frame7_tileset_data
-0001b68e t food_sprite_mold_animation5_frame0_tileset_data
-0001b70e t food_sprite_mold_animation5_frame1_tileset_data
-0001b78e t food_sprite_mold_animation5_frame2_tileset_data
-0001b80e t food_sprite_mold_animation5_frame3_tileset_data
-0001b88e t food_sprite_mold_animation5_frame4_tileset_data
-0001b90e t food_sprite_mold_animation5_frame5_tileset_data
-0001b98e t food_sprite_mold_animation5_frame6_tileset_data
-0001ba0e t food_sprite_mold_animation5_frame7_tileset_data
-0001ba8e t food_sprite_mold_animation6_frame0_tileset_data
-0001bb0e t food_sprite_mold_animation6_frame1_tileset_data
-0001bb8e t food_sprite_mold_animation6_frame2_tileset_data
-0001bc0e t food_sprite_mold_animation6_frame3_tileset_data
-0001bc8e t food_sprite_mold_animation6_frame4_tileset_data
-0001bd0e t food_sprite_mold_animation6_frame5_tileset_data
-0001bd8e t food_sprite_mold_animation6_frame6_tileset_data
-0001be0e t food_sprite_mold_animation6_frame7_tileset_data
-0001be8e t food_sprite_mold_animation7_frame0_tileset_data
-0001bf0e t food_sprite_mold_animation7_frame1_tileset_data
-0001bf8e t food_sprite_mold_animation7_frame2_tileset_data
-0001c00e t food_sprite_mold_animation7_frame3_tileset_data
-0001c08e t food_sprite_mold_animation7_frame4_tileset_data
-0001c10e t food_sprite_mold_animation7_frame5_tileset_data
-0001c18e t food_sprite_mold_animation7_frame6_tileset_data
-0001c20e t food_sprite_mold_animation7_frame7_tileset_data
-0001c28e t player_quad_animation0_frame0_tileset_data
-0001c48e t arrow_sprite_animation0_frame0_tileset_data
-0001c50e t arrow_sprite_animation0_frame1_tileset_data
-0001c58e t arrow_sprite_animation0_frame2_tileset_data
-0001c60e t arrow_sprite_animation0_frame3_tileset_data
-0001c68e A _stext
-e0ff0000 d swapSprite2Index
-e0ff0002 d swapSprite1Index
-e0ff0004 d lastDrawnSeconds
-e0ff0006 d boardDirty
-e0ff0008 d rngState
-e0ff000a d spawnPool
+00002892 T food_engine_cleanup	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1576
+0000293c T food_engine_get_cell	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1601
+00002984 T food_engine_trigger_shake	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:1627
+0000298e T button_pressed	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:45
+000029b0 T sync_quad_pos_from_cell	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:49
+000029d2 T insert_highscore	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:54
+00002a54 T u32_to_str	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:77
+00002ad2 T format_timer	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:98
+00002b54 T main	C:\Users\peter\Documents\_Genesis\Match3\Build/src/main.c:7
+00002bf0 T hold_repeat_input_init	C:\Users\peter\Documents\_Genesis\Match3\Build/src/player_input.c:23
+00002c08 T hold_repeat_input_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/player_input.c:30
+00002cb8 T sprite_quad_engine_show	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:16
+00002d44 T sprite_quad_engine_hide	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:31
+00002d62 T sprite_quad_engine_set_position	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:37
+00002d88 T sprite_quad_engine_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:43
+00002dc0 T state_machine_init	C:\Users\peter\Documents\_Genesis\Match3\Build/src/state_machine.c:17
+00002de6 T state_machine_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/state_machine.c:24
+00002e8e T game_state_enter	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:55
+00002fe4 T game_state_update	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:109
+0000359e T game_state_draw	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:277
+00003602 T game_state_exit	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:288
+00003626 T gameover_state_enter	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:7
+00003660 T gameover_state_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:19
+00003774 T gameover_state_draw	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:44
+00003894 T gameover_state_exit	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/gameover_state.c:65
+00003896 T highscore_state_enter	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:8
+000038ac T highscore_state_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:14
+000038e6 T highscore_state_draw	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:20
+000039e8 T highscore_state_exit	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/highscore_state.c:49
+000039ea t draw_mode_line	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:9
+00003a40 T title_state_enter	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:19
+00003ac6 T title_state_update	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:33
+00003b68 T title_state_draw	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:56
+00003b6a T title_state_exit	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:59
+00003b6c T TSK_init
+00003b92 t .loop
+00003b9a T TSK_superPost
+00003bb0 t no_task
+00003bb2 T TSK_userYield
+00003bba t userYield
+00003be4 T _trap_0
+00003c08 T flushQueue
+00003c1c t .fq_loop
+00003c2a t .fq_end
+00003c2c T KDebug_Alert
+00003c48 T memset_
+00003cc0 T memsetU16
+00003d1e T memcpy_
+00003dc2 T SYS_setInterruptMaskLevel
+00003dda T SYS_getAndSetInterruptMaskLevel
+00003df4 T aplib_unpack
+00003dfa t aplib_decrunch
+00003e0e t .copy_byte
+00003e10 t .next_sequence_init
+00003e12 t .next_sequence
+00003e22 t .get_3_bits
+00003e32 t .write_byte
+00003e36 t .short_match
+00003e44 t .code_pair
+00003e50 t .normal_code_pair
+00003e5e t .compare_1280
+00003e62 t .compare_128
+00003e66 t .domatch_with_2inc
+00003e68 t .domatch_with_inc
+00003e6a t .domatch_new_lastpos
+00003e6c t .copy_code_pair
+00003e72 t .loop_do_copy
+00003e7c t .get_bit
+00003e84 t .still_bits_left
+00003e86 t .decode_gamma
+00003e88 t .get_more_gamma
+00003e92 t .end_decrunch
+00003e9c T lz4w_unpack
+00003ea2 t lz4w_unpack_a
+00003ebc t .jump_table
+000043ba t .lmr_len_01
+000044ce t .lmr_len_00
+000046e0 t .lm_len_00
+000046e6 t .next
+000046f6 t .litE_mat0
+000046f8 t .litC_mat0
+000046fa t .litA_mat0
+000046fc t .lit8_mat0
+000046fe t .lit6_mat0
+00004700 t .lit4_mat0
+00004702 t .lit2_mat0
+00004708 t .long_match_1
+0000471a t .litF_mat0
+0000471c t .litD_mat0
+0000471e t .litB_mat0
+00004720 t .lit9_mat0
+00004722 t .lit7_mat0
+00004724 t .lit5_mat0
+00004726 t .lit3_mat0
+00004728 t .lit1_mat0
+0000472e t .long_match_2
+00004740 t .lit0_mat0
+00004744 t .long_match_3
+00004756 t .lm_rom
+00004762 t .done
+00004768 t .no_byte
+00004772 t .lmr_jump_table
+00004b72 t .litE_mat1
+00004b74 t .litC_mat1
+00004b76 t .litA_mat1
+00004b78 t .lit8_mat1
+00004b7a t .lit6_mat1
+00004b7c t .lit4_mat1
+00004b7e t .lit2_mat1
+00004b80 t .lit0_mat1
+00004b9e t .litF_mat1
+00004ba0 t .litD_mat1
+00004ba2 t .litB_mat1
+00004ba4 t .lit9_mat1
+00004ba6 t .lit7_mat1
+00004ba8 t .lit5_mat1
+00004baa t .lit3_mat1
+00004bac t .lit1_mat1
+00004bcc t .litE_mat2
+00004bce t .litC_mat2
+00004bd0 t .litA_mat2
+00004bd2 t .lit8_mat2
+00004bd4 t .lit6_mat2
+00004bd6 t .lit4_mat2
+00004bd8 t .lit2_mat2
+00004bda t .lit0_mat2
+00004bfa t .litF_mat2
+00004bfc t .litD_mat2
+00004bfe t .litB_mat2
+00004c00 t .lit9_mat2
+00004c02 t .lit7_mat2
+00004c04 t .lit5_mat2
+00004c06 t .lit3_mat2
+00004c08 t .lit1_mat2
+00004c2a t .litE_mat3
+00004c2c t .litC_mat3
+00004c2e t .litA_mat3
+00004c30 t .lit8_mat3
+00004c32 t .lit6_mat3
+00004c34 t .lit4_mat3
+00004c36 t .lit2_mat3
+00004c38 t .lit0_mat3
+00004c5a t .litF_mat3
+00004c5c t .litD_mat3
+00004c5e t .litB_mat3
+00004c60 t .lit9_mat3
+00004c62 t .lit7_mat3
+00004c64 t .lit5_mat3
+00004c66 t .lit3_mat3
+00004c68 t .lit1_mat3
+00004c8c t .litE_mat4
+00004c8e t .litC_mat4
+00004c90 t .litA_mat4
+00004c92 t .lit8_mat4
+00004c94 t .lit6_mat4
+00004c96 t .lit4_mat4
+00004c98 t .lit2_mat4
+00004c9a t .lit0_mat4
+00004cbe t .litF_mat4
+00004cc0 t .litD_mat4
+00004cc2 t .litB_mat4
+00004cc4 t .lit9_mat4
+00004cc6 t .lit7_mat4
+00004cc8 t .lit5_mat4
+00004cca t .lit3_mat4
+00004ccc t .lit1_mat4
+00004cf2 t .litE_mat5
+00004cf4 t .litC_mat5
+00004cf6 t .litA_mat5
+00004cf8 t .lit8_mat5
+00004cfa t .lit6_mat5
+00004cfc t .lit4_mat5
+00004cfe t .lit2_mat5
+00004d00 t .lit0_mat5
+00004d26 t .litF_mat5
+00004d28 t .litD_mat5
+00004d2a t .litB_mat5
+00004d2c t .lit9_mat5
+00004d2e t .lit7_mat5
+00004d30 t .lit5_mat5
+00004d32 t .lit3_mat5
+00004d34 t .lit1_mat5
+00004d5c t .litE_mat6
+00004d5e t .litC_mat6
+00004d60 t .litA_mat6
+00004d62 t .lit8_mat6
+00004d64 t .lit6_mat6
+00004d66 t .lit4_mat6
+00004d68 t .lit2_mat6
+00004d6a t .lit0_mat6
+00004d92 t .litF_mat6
+00004d94 t .litD_mat6
+00004d96 t .litB_mat6
+00004d98 t .lit9_mat6
+00004d9a t .lit7_mat6
+00004d9c t .lit5_mat6
+00004d9e t .lit3_mat6
+00004da0 t .lit1_mat6
+00004dca t .litE_mat7
+00004dcc t .litC_mat7
+00004dce t .litA_mat7
+00004dd0 t .lit8_mat7
+00004dd2 t .lit6_mat7
+00004dd4 t .lit4_mat7
+00004dd6 t .lit2_mat7
+00004dd8 t .lit0_mat7
+00004e02 t .litF_mat7
+00004e04 t .litD_mat7
+00004e06 t .litB_mat7
+00004e08 t .lit9_mat7
+00004e0a t .lit7_mat7
+00004e0c t .lit5_mat7
+00004e0e t .lit3_mat7
+00004e10 t .lit1_mat7
+00004e3c t .litE_mat8
+00004e3e t .litC_mat8
+00004e40 t .litA_mat8
+00004e42 t .lit8_mat8
+00004e44 t .lit6_mat8
+00004e46 t .lit4_mat8
+00004e48 t .lit2_mat8
+00004e4a t .lit0_mat8
+00004e76 t .litF_mat8
+00004e78 t .litD_mat8
+00004e7a t .litB_mat8
+00004e7c t .lit9_mat8
+00004e7e t .lit7_mat8
+00004e80 t .lit5_mat8
+00004e82 t .lit3_mat8
+00004e84 t .lit1_mat8
+00004eb2 t .litE_mat9
+00004eb4 t .litC_mat9
+00004eb6 t .litA_mat9
+00004eb8 t .lit8_mat9
+00004eba t .lit6_mat9
+00004ebc t .lit4_mat9
+00004ebe t .lit2_mat9
+00004ec0 t .lit0_mat9
+00004eee t .litF_mat9
+00004ef0 t .litD_mat9
+00004ef2 t .litB_mat9
+00004ef4 t .lit9_mat9
+00004ef6 t .lit7_mat9
+00004ef8 t .lit5_mat9
+00004efa t .lit3_mat9
+00004efc t .lit1_mat9
+00004f2c t .litE_matA
+00004f2e t .litC_matA
+00004f30 t .litA_matA
+00004f32 t .lit8_matA
+00004f34 t .lit6_matA
+00004f36 t .lit4_matA
+00004f38 t .lit2_matA
+00004f3a t .lit0_matA
+00004f6a t .litF_matA
+00004f6c t .litD_matA
+00004f6e t .litB_matA
+00004f70 t .lit9_matA
+00004f72 t .lit7_matA
+00004f74 t .lit5_matA
+00004f76 t .lit3_matA
+00004f78 t .lit1_matA
+00004faa t .litE_matB
+00004fac t .litC_matB
+00004fae t .litA_matB
+00004fb0 t .lit8_matB
+00004fb2 t .lit6_matB
+00004fb4 t .lit4_matB
+00004fb6 t .lit2_matB
+00004fb8 t .lit0_matB
+00004fea t .litF_matB
+00004fec t .litD_matB
+00004fee t .litB_matB
+00004ff0 t .lit9_matB
+00004ff2 t .lit7_matB
+00004ff4 t .lit5_matB
+00004ff6 t .lit3_matB
+00004ff8 t .lit1_matB
+0000502c t .litE_matC
+0000502e t .litC_matC
+00005030 t .litA_matC
+00005032 t .lit8_matC
+00005034 t .lit6_matC
+00005036 t .lit4_matC
+00005038 t .lit2_matC
+0000503a t .lit0_matC
+0000506e t .litF_matC
+00005070 t .litD_matC
+00005072 t .litB_matC
+00005074 t .lit9_matC
+00005076 t .lit7_matC
+00005078 t .lit5_matC
+0000507a t .lit3_matC
+0000507c t .lit1_matC
+000050b2 t .litE_matD
+000050b4 t .litC_matD
+000050b6 t .litA_matD
+000050b8 t .lit8_matD
+000050ba t .lit6_matD
+000050bc t .lit4_matD
+000050be t .lit2_matD
+000050c0 t .lit0_matD
+000050f6 t .litF_matD
+000050f8 t .litD_matD
+000050fa t .litB_matD
+000050fc t .lit9_matD
+000050fe t .lit7_matD
+00005100 t .lit5_matD
+00005102 t .lit3_matD
+00005104 t .lit1_matD
+0000513c t .litE_matE
+0000513e t .litC_matE
+00005140 t .litA_matE
+00005142 t .lit8_matE
+00005144 t .lit6_matE
+00005146 t .lit4_matE
+00005148 t .lit2_matE
+0000514a t .lit0_matE
+00005182 t .litF_matE
+00005184 t .litD_matE
+00005186 t .litB_matE
+00005188 t .lit9_matE
+0000518a t .lit7_matE
+0000518c t .lit5_matE
+0000518e t .lit3_matE
+00005190 t .lit1_matE
+000051ca t .litE_matF
+000051cc t .litC_matF
+000051ce t .litA_matF
+000051d0 t .lit8_matF
+000051d2 t .lit6_matF
+000051d4 t .lit4_matF
+000051d6 t .lit2_matF
+000051d8 t .lit0_matF
+00005212 t .litF_matF
+00005214 t .litD_matF
+00005216 t .litB_matF
+00005218 t .lit9_matF
+0000521a t .lit7_matF
+0000521c t .lit5_matF
+0000521e t .lit3_matF
+00005220 t .lit1_matF
+0000525c t DMA_queueDmaFast
+000053aa t DMA_doDmaFast
+0000553a t DMA_doCPUCopyDirect
+0000567e t DMA_doCPUCopy
+00005738 t externalIntCB
+00005878 t _extint_dummy_callback
+0000587a t read6Btn
+000059c2 t readMouse
+00005dca t readTeamPlayer
+0000659c t readLightgun
+00006b1c t readTrackball
+00006d50 t MEM_alloc
+00006e26 t DMA_setBufferSize
+00006e7e t MEM_pack
+00006ee6 t _int_callback
+00006ee8 t _vblank_dummy_callback
+00006eea t _vint_dummy_callback
+00006eec t _hint_dummy_callback
+00006eee t VDP_getPlaneAddress
+00006fa0 t XGM_unloadDriver
+00006fb8 t XGM2_unloadDriver
+00006fc0 t SND_DPCM2_unloadDriver
+00006fc0 t SND_PCM_unloadDriver
+00006fc0 t SND_PCM4_unloadDriver
+00006fc2 t YM2612_reset
+000073ce t setNextXFrame.constprop.0
+0000741c t VDP_setTileMapDataEx.constprop.0
+000074f0 t VRAM_alloc.constprop.0
+000075be t SPR_defragVRAM
+000076aa t SPR_addSpriteEx.constprop.0
+000078cc t DMA_initEx.constprop.0
+00007948 t JOY_update
+00007e10 t Z80_clear
+00007ed2 t Z80_upload
+00007fec t Z80_upload.constprop.0
+000080c8 t Z80_upload.constprop.1
+000081a4 t PAL_doFadeStep
+000081be t SPR_end
+000082de t SND_NULL_loadDriver
+000083d6 t Z80_loadDriverInternal
+000084e6 t getAccess
+00008636 t setFMVolume
+000086ce t setPSGVolume
+00008766 t setMusicTempo.constprop.0
+000087fc t setLoopNumber.constprop.0
+0000884a t setTileMapDataColumnEx.constprop.0
+000089b0 t VDP_setTileMapDataRectEx.constprop.0
+00008e18 t VDP_waitVBlank
+00008fc2 T BMP_doVBlankProcess
+00008fcc T VDP_setAutoInc
+00008fe6 T JOY_readJoypad
+00009062 T memset
+0000907c t XGM2_loadDriver
+000091fc t Z80_loadDriver
+000092de t Z80_init
+00009344 t XGM2_stop
+000093ca t XGM2_pause
+0000943c t SYS_doVBlankProcessEx.constprop.0
+00009980 T SYS_doVBlankProcess
+00009984 t waitSubTick.part.0
+00009b42 t XGM_loadDriver
+00009df0 t SND_DPCM2_loadDriver
+00009f98 t SND_PCM_loadDriver
+0000a140 t SND_PCM4_loadDriver
+0000a2f0 t SPR_initEx.constprop.0
+0000a538 T memcpy
+0000a548 t DMA_transfer.isra.0
+0000a7be T PAL_setColor
+0000a7e2 T PAL_setPalette
+0000a9aa T SPR_init
+0000a9ae T SPR_addSprite
+0000a9cc T SPR_releaseSprite
+0000aa86 T SPR_setPosition
+0000aad0 T SPR_setHFlip
+0000ab1a T SPR_setVFlip
+0000ab64 T SPR_setAnim
+0000ab9e T SPR_setFrame
+0000abc0 T SPR_setAutoAnimation
+0000abec T SPR_update
+0000b3f4 T strcat
+0000b410 T SYS_showFrameLoad
+0000b4de T VDP_waitDMACompletion
+0000b4ec T VDP_setScreenHeight240
+0000b51e T VDP_setScreenWidth320
+0000b556 T VDP_loadFont
+0000b830 T VDP_clearPlane
+0000bc4e T VDP_setTextPalette
+0000bc72 T VDP_drawText
+0000bdf0 t VDP_resetScreen
+0000c02c T VDP_clearTextArea
+0000c19e T VDP_drawImageEx
+0000c4ba T VDP_loadTileSet
+0000c78a t updateMapsAddress
+0000c812 t VDP_init
+0000c93a t VDP_setReg.constprop.0
+0000c954 t JOY_setSupport
+0000c978 t JOY_reset
+0000d216 T JOY_init
+0000d220 t internal_reset
+0000d360 T _start_entry
+0000d44c T _reset_entry
+0000d466 T VDP_setTileMapXY
+0000d590 T XGM_doVBlankProcess
+0000d5f8 T MDDBG__SymbolDataPtr
+0000d5fc t __ErrorHandler
+0000d5fc t MDDBG__ErrorHandler
+0000d724 t MDDBG__Error_IdleLoop
+0000d73e t MDDBG__Error_InitConsole
+0000d74a t MDDBG__Error_MaskStackBoundaries
+0000d7b4 t MDDBG__Error_DrawOffsetLocation
+0000d7b8 t MDDBG__Error_DrawOffsetLocation2
+0000d7be t MDDBG__Error_DrawOffsetLocation__inj
+0000d84c t MDDBG__ErrorHandler_SetupVDP
+0000d882 t MDDBG__ErrorHandler_VDPConfig
+0000d898 t MDDBG__ErrorHandler_VDPConfig_Nametables
+0000d8d4 t MDDBG__ErrorHandler_ConsoleConfig_Initial
+0000d8d8 t MDDBG__ErrorHandler_ConsoleConfig_Shared
+0000d908 t MDDBG__Str_OffsetLocation_24bit
+0000d911 t MDDBG__Str_OffsetLocation_32bit
+0000d94c t MDDBG__Art1bpp_Font
+0000dc46 t MDDBG__GetSymbolByOffset
+0000df60 t MDDBG__FormatString
+0000e03a t MDDBG__Console_Init
+0000e078 t MDDBG__Console_Reset
+0000e07a t MDDBG__Console_InitShared
+0000e0c4 t MDDBG__Console_SetPosAsXY_Stack
+0000e0ca t MDDBG__Console_SetPosAsXY
+0000e0fe t MDDBG__Console_GetPosAsXY
+0000e124 t MDDBG__Console_StartNewLine
+0000e152 t MDDBG__Console_SetBasePattern
+0000e16e t MDDBG__Console_SetWidth
+0000e18c t MDDBG__Console_WriteLine_WithPattern
+0000e18e t MDDBG__Console_WriteLine
+0000e192 t MDDBG__Console_Write
+0000e258 t MDDBG__Console_WriteLine_Formatted
+0000e25c t MDDBG__Console_Write_Formatted
+0000e28c t MDDBG__Decomp1bpp
+0000e2a8 t MDDBG__KDebug_WriteLine_Formatted
+0000e2ac t MDDBG__KDebug_Write_Formatted
+0000e300 t MDDBG__KDebug_FlushLine
+0000e30a t MDDBG__KDebug_WriteLine
+0000e30e t MDDBG__KDebug_Write
+0000e33c t MDDBG__ErrorHandler_ConsoleOnly
+0000e362 t MDDBG__ErrorHandler_ClearConsole
+0000e38c t MDDBG__ErrorHandler_PauseConsole
+0000e3c6 t MDDBG__ErrorHandler_PagesController
+0000e426 t MDDBG__VSync
+0000e460 t MDDBG__ErrorHandler_ExtraDebuggerList
+0000e46c t MDDBG__Debugger_AddressRegisters
+0000e4b8 t MDDBG__Debugger_Backtrace
+0000e556 T _Bus_Error
+0000e556 t MDDBG__BusError
+0000e56a T _Address_Error
+0000e56a t MDDBG__AddressError
+0000e582 T _Illegal_Instruction
+0000e582 t MDDBG__IllegalInstr
+0000e5a0 T _Zero_Divide
+0000e5a0 t MDDBG__ZeroDivide
+0000e5b6 T _Chk_Instruction
+0000e5b6 t MDDBG__ChkInstr
+0000e5d0 T _Trapv_Instruction
+0000e5d0 t MDDBG__TrapvInstr
+0000e5ec T _Privilege_Violation
+0000e5ec t MDDBG__PrivilegeViol
+0000e60a T _Trace
+0000e60a t MDDBG__Trace
+0000e61a T _Line_1010_Emulation
+0000e61a t MDDBG__Line1010Emu
+0000e636 T _Line_1111_Emulation
+0000e636 t MDDBG__Line1111Emu
+0000e652 T _Error_Exception
+0000e652 t MDDBG__ErrorExcept
+0000e700 T smp_null
+0000e800 T smp_null_dpcm
+0000e880 T __mulsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:442
+0000e880 T __mulsi3_internal	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:442
+0000e8a4 T __udivsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:469
+0000e8a4 T __udivsi3_internal	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:469
+0000e8cc t L3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:486
+0000e8ce t L4	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:487
+0000e8fa t L5	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:508
+0000e8fc t L6	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:510
+0000e900 T __divsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:547
+0000e900 T __divsi3_internal	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:547
+0000e90e t L1	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:558
+0000e918 t L2	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:567
+0000e92a t L3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:576
+0000e930 T __umodsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:585
+0000e960 T __modsi3	/home/runner/work/m68k-elf-gcc/m68k-elf-gcc/.build/HOST-i686-w64-mingw32/m68k-elf/src/gcc/libgcc/config/m68k/lb1sf68.S:611
+0000e990 T __CTOR_LIST__
+0000e998 T __CTOR_END__
+0000e998 T __DTOR_LIST__
+0000e9a0 T __DTOR_END__
+0000e9a0 t border1_tileset
+0000e9a8 t border1_tilemap
+0000e9b2 t border1_palette
+0000e9b8 T border1
+0000e9c4 T food_tiles
+0000e9cc t food_sprite_mold_palette
+0000e9d2 t food_sprite_mold_animation0_frame0_tileset
+0000e9da t food_sprite_mold_animation0_frame0
+0000e9ea t food_sprite_mold_animation0_frame1_tileset
+0000e9f2 t food_sprite_mold_animation0_frame1
+0000ea02 t food_sprite_mold_animation0_frame2_tileset
+0000ea0a t food_sprite_mold_animation0_frame2
+0000ea1a t food_sprite_mold_animation0_frame3_tileset
+0000ea22 t food_sprite_mold_animation0_frame3
+0000ea32 t food_sprite_mold_animation0_frame4_tileset
+0000ea3a t food_sprite_mold_animation0_frame4
+0000ea4a t food_sprite_mold_animation0_frame5_tileset
+0000ea52 t food_sprite_mold_animation0_frame5
+0000ea62 t food_sprite_mold_animation0_frame6_tileset
+0000ea6a t food_sprite_mold_animation0_frame6
+0000ea7a t food_sprite_mold_animation0_frame7_tileset
+0000ea82 t food_sprite_mold_animation0_frame7
+0000ea92 t food_sprite_mold_animation0_frames
+0000eab2 t food_sprite_mold_animation0
+0000eab8 t food_sprite_mold_animation1_frame0_tileset
+0000eac0 t food_sprite_mold_animation1_frame0
+0000ead0 t food_sprite_mold_animation1_frame1_tileset
+0000ead8 t food_sprite_mold_animation1_frame1
+0000eae8 t food_sprite_mold_animation1_frame2_tileset
+0000eaf0 t food_sprite_mold_animation1_frame2
+0000eb00 t food_sprite_mold_animation1_frame3_tileset
+0000eb08 t food_sprite_mold_animation1_frame3
+0000eb18 t food_sprite_mold_animation1_frame4_tileset
+0000eb20 t food_sprite_mold_animation1_frame4
+0000eb30 t food_sprite_mold_animation1_frame5_tileset
+0000eb38 t food_sprite_mold_animation1_frame5
+0000eb48 t food_sprite_mold_animation1_frame6_tileset
+0000eb50 t food_sprite_mold_animation1_frame6
+0000eb60 t food_sprite_mold_animation1_frame7_tileset
+0000eb68 t food_sprite_mold_animation1_frame7
+0000eb78 t food_sprite_mold_animation1_frames
+0000eb98 t food_sprite_mold_animation1
+0000eb9e t food_sprite_mold_animation2_frame0_tileset
+0000eba6 t food_sprite_mold_animation2_frame0
+0000ebb6 t food_sprite_mold_animation2_frame1_tileset
+0000ebbe t food_sprite_mold_animation2_frame1
+0000ebce t food_sprite_mold_animation2_frame2_tileset
+0000ebd6 t food_sprite_mold_animation2_frame2
+0000ebe6 t food_sprite_mold_animation2_frame3_tileset
+0000ebee t food_sprite_mold_animation2_frame3
+0000ebfe t food_sprite_mold_animation2_frame4_tileset
+0000ec06 t food_sprite_mold_animation2_frame4
+0000ec16 t food_sprite_mold_animation2_frame5_tileset
+0000ec1e t food_sprite_mold_animation2_frame5
+0000ec2e t food_sprite_mold_animation2_frame6_tileset
+0000ec36 t food_sprite_mold_animation2_frame6
+0000ec46 t food_sprite_mold_animation2_frame7_tileset
+0000ec4e t food_sprite_mold_animation2_frame7
+0000ec5e t food_sprite_mold_animation2_frames
+0000ec7e t food_sprite_mold_animation2
+0000ec84 t food_sprite_mold_animation3_frame0_tileset
+0000ec8c t food_sprite_mold_animation3_frame0
+0000ec9c t food_sprite_mold_animation3_frame1_tileset
+0000eca4 t food_sprite_mold_animation3_frame1
+0000ecb4 t food_sprite_mold_animation3_frame2_tileset
+0000ecbc t food_sprite_mold_animation3_frame2
+0000eccc t food_sprite_mold_animation3_frame3_tileset
+0000ecd4 t food_sprite_mold_animation3_frame3
+0000ece4 t food_sprite_mold_animation3_frame4_tileset
+0000ecec t food_sprite_mold_animation3_frame4
+0000ecfc t food_sprite_mold_animation3_frame5_tileset
+0000ed04 t food_sprite_mold_animation3_frame5
+0000ed14 t food_sprite_mold_animation3_frame6_tileset
+0000ed1c t food_sprite_mold_animation3_frame6
+0000ed2c t food_sprite_mold_animation3_frame7_tileset
+0000ed34 t food_sprite_mold_animation3_frame7
+0000ed44 t food_sprite_mold_animation3_frames
+0000ed64 t food_sprite_mold_animation3
+0000ed6a t food_sprite_mold_animation4_frame0_tileset
+0000ed72 t food_sprite_mold_animation4_frame0
+0000ed82 t food_sprite_mold_animation4_frame1_tileset
+0000ed8a t food_sprite_mold_animation4_frame1
+0000ed9a t food_sprite_mold_animation4_frame2_tileset
+0000eda2 t food_sprite_mold_animation4_frame2
+0000edb2 t food_sprite_mold_animation4_frame3_tileset
+0000edba t food_sprite_mold_animation4_frame3
+0000edca t food_sprite_mold_animation4_frame4_tileset
+0000edd2 t food_sprite_mold_animation4_frame4
+0000ede2 t food_sprite_mold_animation4_frame5_tileset
+0000edea t food_sprite_mold_animation4_frame5
+0000edfa t food_sprite_mold_animation4_frame6_tileset
+0000ee02 t food_sprite_mold_animation4_frame6
+0000ee12 t food_sprite_mold_animation4_frame7_tileset
+0000ee1a t food_sprite_mold_animation4_frame7
+0000ee2a t food_sprite_mold_animation4_frames
+0000ee4a t food_sprite_mold_animation4
+0000ee50 t food_sprite_mold_animation5_frame0_tileset
+0000ee58 t food_sprite_mold_animation5_frame0
+0000ee68 t food_sprite_mold_animation5_frame1_tileset
+0000ee70 t food_sprite_mold_animation5_frame1
+0000ee80 t food_sprite_mold_animation5_frame2_tileset
+0000ee88 t food_sprite_mold_animation5_frame2
+0000ee98 t food_sprite_mold_animation5_frame3_tileset
+0000eea0 t food_sprite_mold_animation5_frame3
+0000eeb0 t food_sprite_mold_animation5_frame4_tileset
+0000eeb8 t food_sprite_mold_animation5_frame4
+0000eec8 t food_sprite_mold_animation5_frame5_tileset
+0000eed0 t food_sprite_mold_animation5_frame5
+0000eee0 t food_sprite_mold_animation5_frame6_tileset
+0000eee8 t food_sprite_mold_animation5_frame6
+0000eef8 t food_sprite_mold_animation5_frame7_tileset
+0000ef00 t food_sprite_mold_animation5_frame7
+0000ef10 t food_sprite_mold_animation5_frames
+0000ef30 t food_sprite_mold_animation5
+0000ef36 t food_sprite_mold_animation6_frame0_tileset
+0000ef3e t food_sprite_mold_animation6_frame0
+0000ef4e t food_sprite_mold_animation6_frame1_tileset
+0000ef56 t food_sprite_mold_animation6_frame1
+0000ef66 t food_sprite_mold_animation6_frame2_tileset
+0000ef6e t food_sprite_mold_animation6_frame2
+0000ef7e t food_sprite_mold_animation6_frame3_tileset
+0000ef86 t food_sprite_mold_animation6_frame3
+0000ef96 t food_sprite_mold_animation6_frame4_tileset
+0000ef9e t food_sprite_mold_animation6_frame4
+0000efae t food_sprite_mold_animation6_frame5_tileset
+0000efb6 t food_sprite_mold_animation6_frame5
+0000efc6 t food_sprite_mold_animation6_frame6_tileset
+0000efce t food_sprite_mold_animation6_frame6
+0000efde t food_sprite_mold_animation6_frame7_tileset
+0000efe6 t food_sprite_mold_animation6_frame7
+0000eff6 t food_sprite_mold_animation6_frames
+0000f016 t food_sprite_mold_animation6
+0000f01c t food_sprite_mold_animation7_frame0_tileset
+0000f024 t food_sprite_mold_animation7_frame0
+0000f034 t food_sprite_mold_animation7_frame1_tileset
+0000f03c t food_sprite_mold_animation7_frame1
+0000f04c t food_sprite_mold_animation7_frame2_tileset
+0000f054 t food_sprite_mold_animation7_frame2
+0000f064 t food_sprite_mold_animation7_frame3_tileset
+0000f06c t food_sprite_mold_animation7_frame3
+0000f07c t food_sprite_mold_animation7_frame4_tileset
+0000f084 t food_sprite_mold_animation7_frame4
+0000f094 t food_sprite_mold_animation7_frame5_tileset
+0000f09c t food_sprite_mold_animation7_frame5
+0000f0ac t food_sprite_mold_animation7_frame6_tileset
+0000f0b4 t food_sprite_mold_animation7_frame6
+0000f0c4 t food_sprite_mold_animation7_frame7_tileset
+0000f0cc t food_sprite_mold_animation7_frame7
+0000f0dc t food_sprite_mold_animation7_frames
+0000f0fc t food_sprite_mold_animation7
+0000f102 t food_sprite_mold_animations
+0000f122 T food_sprite_mold
+0000f134 t player_quad_palette
+0000f13a t player_quad_animation0_frame0_tileset
+0000f142 t player_quad_animation0_frame0
+0000f152 t player_quad_animation0_frames
+0000f156 t player_quad_animation0
+0000f15c t player_quad_animations
+0000f160 T player_quad
+0000f172 t arrow_sprite_animation0_frame0_tileset
+0000f17a t arrow_sprite_animation0_frame0
+0000f18a t arrow_sprite_animation0_frame1_tileset
+0000f192 t arrow_sprite_animation0_frame1
+0000f1a2 t arrow_sprite_animation0_frame2_tileset
+0000f1aa t arrow_sprite_animation0_frame2
+0000f1ba t arrow_sprite_animation0_frame3_tileset
+0000f1c2 t arrow_sprite_animation0_frame3
+0000f1d2 t arrow_sprite_animation0_frames
+0000f1e2 t arrow_sprite_animation0
+0000f1e8 t arrow_sprite_animations
+0000f1ec T arrow_sprite
+0000f268 t bottleMaskRows	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:104
+0000f2a4 t topRowSpawnCols	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:66
+0000f2b0 t stateTable	C:\Users\peter\Documents\_Genesis\Match3\Build/src/state_machine.c:10
+0000f308 t bottleMaskRows	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:31
+0000f4bc t tab_vol
+000104bc t psgVolTable
+00010520 t fmVolTable
+00010584 t palette_blue
+000105a4 t palette_green
+000105c4 t palette_red
+000105e4 t palette_grey
+00010604 t visibilityMask.0
+00010626 t xlt.1
+0001062e t xlt_all.0
+0001063e t sgdk_logo_palette
+00010644 T sgdk_logo
+00010652 T font_default
+0001065a T font_pal_default
+00010660 T drv_null
+0001069a T drv_xgm
+00011d9a T drv_dpcm2
+00012b9a T drv_pcm
+000136ca T drv_pcm4
+00014138 T drv_xgm2
+00016138 T __INIT_SECTION__
+0001613a T __FINI_SECTION__
+0001613c T _etext
+0001613c t border1_palette_data
+000161bc t food_sprite_mold_palette_data
+000161dc t player_quad_palette_data
+000161fc t sgdk_logo_palette_data
+0001621c t font_pal_default_data
+0001623c T stop_xgm
+000162e8 t font_default_data
+0001654a t sgdk_logo_data
+00016984 t border1_tilemap_data
+00016a94 t border1_tileset_data
+00016d06 t food_tiles_data
+00018d06 t food_sprite_mold_animation0_frame0_tileset_data
+00018d86 t food_sprite_mold_animation0_frame1_tileset_data
+00018e06 t food_sprite_mold_animation0_frame2_tileset_data
+00018e86 t food_sprite_mold_animation0_frame3_tileset_data
+00018f06 t food_sprite_mold_animation0_frame4_tileset_data
+00018f86 t food_sprite_mold_animation0_frame5_tileset_data
+00019006 t food_sprite_mold_animation0_frame6_tileset_data
+00019086 t food_sprite_mold_animation0_frame7_tileset_data
+00019106 t food_sprite_mold_animation1_frame0_tileset_data
+00019186 t food_sprite_mold_animation1_frame1_tileset_data
+00019206 t food_sprite_mold_animation1_frame2_tileset_data
+00019286 t food_sprite_mold_animation1_frame3_tileset_data
+00019306 t food_sprite_mold_animation1_frame4_tileset_data
+00019386 t food_sprite_mold_animation1_frame5_tileset_data
+00019406 t food_sprite_mold_animation1_frame6_tileset_data
+00019486 t food_sprite_mold_animation1_frame7_tileset_data
+00019506 t food_sprite_mold_animation2_frame0_tileset_data
+00019586 t food_sprite_mold_animation2_frame1_tileset_data
+00019606 t food_sprite_mold_animation2_frame2_tileset_data
+00019686 t food_sprite_mold_animation2_frame3_tileset_data
+00019706 t food_sprite_mold_animation2_frame4_tileset_data
+00019786 t food_sprite_mold_animation2_frame5_tileset_data
+00019806 t food_sprite_mold_animation2_frame6_tileset_data
+00019846 t food_sprite_mold_animation2_frame7_tileset_data
+000198c6 t food_sprite_mold_animation3_frame0_tileset_data
+00019946 t food_sprite_mold_animation3_frame1_tileset_data
+000199c6 t food_sprite_mold_animation3_frame2_tileset_data
+00019a46 t food_sprite_mold_animation3_frame3_tileset_data
+00019ac6 t food_sprite_mold_animation3_frame4_tileset_data
+00019b46 t food_sprite_mold_animation3_frame5_tileset_data
+00019bc6 t food_sprite_mold_animation3_frame6_tileset_data
+00019c46 t food_sprite_mold_animation3_frame7_tileset_data
+00019cc6 t food_sprite_mold_animation4_frame0_tileset_data
+00019d46 t food_sprite_mold_animation4_frame1_tileset_data
+00019dc6 t food_sprite_mold_animation4_frame2_tileset_data
+00019e46 t food_sprite_mold_animation4_frame3_tileset_data
+00019ec6 t food_sprite_mold_animation4_frame4_tileset_data
+00019f46 t food_sprite_mold_animation4_frame5_tileset_data
+00019fc6 t food_sprite_mold_animation4_frame6_tileset_data
+0001a046 t food_sprite_mold_animation4_frame7_tileset_data
+0001a0c6 t food_sprite_mold_animation5_frame0_tileset_data
+0001a146 t food_sprite_mold_animation5_frame1_tileset_data
+0001a1c6 t food_sprite_mold_animation5_frame2_tileset_data
+0001a246 t food_sprite_mold_animation5_frame3_tileset_data
+0001a2c6 t food_sprite_mold_animation5_frame4_tileset_data
+0001a346 t food_sprite_mold_animation5_frame5_tileset_data
+0001a3c6 t food_sprite_mold_animation5_frame6_tileset_data
+0001a446 t food_sprite_mold_animation5_frame7_tileset_data
+0001a4c6 t food_sprite_mold_animation6_frame0_tileset_data
+0001a546 t food_sprite_mold_animation6_frame1_tileset_data
+0001a5c6 t food_sprite_mold_animation6_frame2_tileset_data
+0001a646 t food_sprite_mold_animation6_frame3_tileset_data
+0001a6c6 t food_sprite_mold_animation6_frame4_tileset_data
+0001a746 t food_sprite_mold_animation6_frame5_tileset_data
+0001a7c6 t food_sprite_mold_animation6_frame6_tileset_data
+0001a846 t food_sprite_mold_animation6_frame7_tileset_data
+0001a8c6 t food_sprite_mold_animation7_frame0_tileset_data
+0001a946 t food_sprite_mold_animation7_frame1_tileset_data
+0001a9c6 t food_sprite_mold_animation7_frame2_tileset_data
+0001aa46 t food_sprite_mold_animation7_frame3_tileset_data
+0001aac6 t food_sprite_mold_animation7_frame4_tileset_data
+0001ab46 t food_sprite_mold_animation7_frame5_tileset_data
+0001abc6 t food_sprite_mold_animation7_frame6_tileset_data
+0001ac46 t food_sprite_mold_animation7_frame7_tileset_data
+0001acc6 t player_quad_animation0_frame0_tileset_data
+0001aec6 t arrow_sprite_animation0_frame0_tileset_data
+0001af46 t arrow_sprite_animation0_frame1_tileset_data
+0001afc6 t arrow_sprite_animation0_frame2_tileset_data
+0001b046 t arrow_sprite_animation0_frame3_tileset_data
+0001b0c6 A _stext
+e0ff0000 d rngState	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:331
+e0ff0002 d swapSprite2Index	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:95
+e0ff0004 d swapSprite1Index	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:94
+e0ff0006 d spawnPool	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:65
+e0ff0010 d boardDirty	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:40
 e0ff0014 D highscores	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:32
 e0ff0064 D textPaletteData	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:25
 e0ff0084 D enteredName	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:21
@@ -948,155 +969,159 @@ e0ff008c D quadY	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:16
 e0ff008e D quadX	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:15
 e0ff0090 D timeLeftSeconds	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:13
 e0ff0092 D lastState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:6
+e0ff0096 d lastDrawnSeconds	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:15
 e0ff0098 D task_sr
 e0ff009a D task_pc
 e0ff009e D task_regs
 e0ff00da D task_lock
 e0ff00dc D _edata
 e0ff00dc B _start
-e0ff00dc B bmp_buffer_write
-e0ff00e0 B VBlankProcess
-e0ff00e2 B hintCaller
-e0ff00e8 B vintCB
-e0ff00ec B intCB
-e0ff00f0 B vtimer
-e0ff00f4 B eintCB
-e0ff00f8 B intLevelSave
-e0ff00fa B intTrace
-e0ff00fc B dmaQueues
-e0ff0100 b state
-e0ff0102 b fadePSGVol
-e0ff0104 b fadeFMVol
-e0ff0106 b fadeCount
-e0ff0108 b vscroll_update
-e0ff0109 b hscroll_update
-e0ff010a b xgm2WaitTab
-e0ff0112 b xgm2IdleTab
-e0ff011a b xgmTempoCnt
-e0ff011c b xgmWaitTab
-e0ff015c b xgmIdleTab
-e0ff019c b xgmTempoDef
-e0ff019e b xgmTempo
-e0ff01a0 b busProtectSignalAddress
-e0ff01a2 b driverFlags
-e0ff01a4 b currentDriver
-e0ff01a6 b lastVTimer.0
-e0ff01a8 b text_plan
-e0ff01ac b lastVCnt
-e0ff01ae b hscrl_addr
-e0ff01b0 b lastTick
-e0ff01b4 b cpuFrameLoad
-e0ff01b6 b frameLoadIndex
-e0ff01b8 b frameLoads
-e0ff01c8 b vblankCB
-e0ff01cc b flags
-e0ff01ce b screenHeight
-e0ff01d0 b screenWidth
-e0ff01d2 b usedVDPSprite
-e0ff01d4 b allocStack
-e0ff0314 b slist_addr
-e0ff0316 b vdpSpriteCache
-e0ff0616 b maps_addr
-e0ff0618 b spriteVramSize
-e0ff061c b vram
-e0ff0628 b lastSprite
-e0ff062c b firstSprite
-e0ff0630 b spritesPool
-e0ff0634 b fadeCounter
-e0ff0636 b heap
-e0ff063a b free.lto_priv.0
-e0ff063e b randomSeedSet
-e0ff063f b retry
-e0ff0640 b phase.lto_priv.1
-e0ff0641 b gun
-e0ff0642 b extSet
-e0ff0644 b disableIntStack
-e0ff0646 b joyAxisY
-e0ff0656 b joyAxisX
-e0ff0666 b joyState.lto_priv.0
-e0ff0676 b joyType
-e0ff067e b portSupport
-e0ff0680 b portType
-e0ff0682 b gport
-e0ff0684 b joyEventCB
-e0ff0688 b flag
-e0ff068a b maxTransferPerFrame
-e0ff068c b queueSize
-e0ff068e b nextDataBuffer
-e0ff0692 b queueTransferSize
-e0ff0694 b queueIndexLimit
-e0ff0696 b queueIndex
-e0ff0698 b dmaDataBuffer
-e0ff069c b dataBufferSize
-e0ff069e b phase.lto_priv.0
-e0ff06a0 b rowSimCheckMask
-e0ff06af b lockArrowFrame
-e0ff06b0 b lockTargetY
-e0ff06b2 b lockTargetX
-e0ff06b4 b lockTargetRow
-e0ff06b6 b lockTargetCol
-e0ff06b8 b text_basetile
-e0ff06bc b regValues
-e0ff06d0 b planeHeightSft
-e0ff06d2 b swapRow2
-e0ff06d4 b swapCol2
-e0ff06d6 b swapRow1
-e0ff06d8 b swapCol1
-e0ff06da b swapAnimState
-e0ff06de b shakeRequested
-e0ff06e0 b movementFrameCounter
-e0ff06e2 b simFrameCounter
-e0ff06e6 b pendingMatchCheck
-e0ff06e8 b lockedRow
-e0ff06ea b lockedCol
-e0ff06ec b lockSwapConsumed
-e0ff06ee b lockBlinkTick
-e0ff06f0 b lockDirDy
-e0ff06f1 b lockDirDx
-e0ff06f2 b lockMode
-e0ff06f6 b arrowSprite
-e0ff06fa b lastRenderedGrid
-e0ff0952 b currentCellChecks
-e0ff0954 b walkableMaxCol
-e0ff0972 b walkableMinCol
-e0ff0990 b matchMask
-e0ff0abc b currSlideToRow
-e0ff0d14 b currSlideToCol
-e0ff0f6c b currSlideFromRow
-e0ff11c4 b currSlideFromCol
-e0ff141c b currSlideCount
-e0ff141e b movementDetectedThisCheck
-e0ff141f b movedMask
-e0ff154c b prevSlideCount
-e0ff1550 b prevSlideToRow
-e0ff17a8 b prevSlideToCol
-e0ff1a00 b prevSlideFromRow
-e0ff1c58 b prevSlideFromCol
-e0ff1eb0 b nextFruitGrid
-e0ff2108 b fruitGrid
-e0ff2360 b spawnBagPos
-e0ff2374 b spawnBag
-e0ff243c b matchFlightInProgress
-e0ff243e b matchFlightActiveCount
-e0ff2440 b matchFlightSprites
-e0ff29e0 b bga_addr
-e0ff29e2 b window_addr
-e0ff29e4 b windowWidthSft
-e0ff29e6 b windowWidth
-e0ff29e8 b bgb_addr
-e0ff29ea b planeWidthSft
-e0ff29ec b planeHeight
-e0ff29ee b planeWidth
-e0ff29f0 b foodBgTileBase
-e0ff29f2 B moveInput	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:23
-e0ff29fa B nameCursor	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:20
-e0ff29fc B gameTicks	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:12
-e0ff29fe B lastJoyState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:10
-e0ff2a00 B joyState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:9
-e0ff2a02 B currentGameMode	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:7
-e0ff2a06 B currentState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:5
-e0ff2a0a B lastScore	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:3
-e0ff2a0e b quadEngine	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:14
-e0ff2a16 b selectedMode	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:7
-e0ff2a18 B _bend
+e0ff00dc b swapRow2	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:99
+e0ff00de b swapCol2	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:98
+e0ff00e0 b swapRow1	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:97
+e0ff00e2 b swapCol1	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:96
+e0ff00e4 b swapAnimState	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:93
+e0ff00e8 b gravityAnimCount	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:86
+e0ff00ea b gravityAnimFruits	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:85
+e0ff038a b matchFlightInProgress	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:72
+e0ff038c b matchFlightActiveCount	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:71
+e0ff038e b matchFlightSprites	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:70
+e0ff092e b spawnBagPos	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:68
+e0ff0942 b spawnBag	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:67
+e0ff0a0a b lastCellChecks	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:63
+e0ff0a0c b currentCellChecks	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:62
+e0ff0a0e b currSlideCount	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:61
+e0ff0a10 b prevSlideCount	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:60
+e0ff0a12 b currSlideToRow	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:59
+e0ff0c6a b currSlideToCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:58
+e0ff0ec2 b currSlideFromRow	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:57
+e0ff111a b currSlideFromCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:56
+e0ff1372 b prevSlideToRow	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:55
+e0ff15ca b prevSlideToCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:54
+e0ff1822 b prevSlideFromRow	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:53
+e0ff1a7a b prevSlideFromCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:52
+e0ff1cd2 b rowSimCheckMask	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:51
+e0ff1ce1 b movedMask	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:50
+e0ff1e0d b matchMask	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:49
+e0ff1f3a b walkableMaxCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:48
+e0ff1f58 b walkableMinCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:47
+e0ff1f76 b lastRenderedGrid	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:46
+e0ff21ce b nextFruitGrid	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:45
+e0ff2426 b fruitGrid	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:44
+e0ff267e b shakeRequested	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:42
+e0ff267f b movementDetectedThisCheck	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:41
+e0ff2680 b movementFrameCounter	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:39
+e0ff2682 b simFrameCounter	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:38
+e0ff2686 b pendingMatchCheck	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:37
+e0ff2688 b foodBgTileBase	c:\Users\peter\Documents\_Genesis\Match3\Build/src/food_engine.c:36
+e0ff268a B moveInput	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:23
+e0ff2692 B nameCursor	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:20
+e0ff2694 B gameTicks	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:12
+e0ff2696 B lastJoyState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:10
+e0ff2698 B joyState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:9
+e0ff269a B currentGameMode	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:7
+e0ff269e B currentState	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:5
+e0ff26a2 B lastScore	C:\Users\peter\Documents\_Genesis\Match3\Build/src/globals.c:3
+e0ff26a6 b quadEngine	C:\Users\peter\Documents\_Genesis\Match3\Build/src/sprite_quad_engine.c:14
+e0ff26ae b lockSwapConsumed	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:29
+e0ff26af b lockArrowFrame	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:28
+e0ff26b0 b arrowSprite	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:27
+e0ff26b4 b lockBlinkTick	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:26
+e0ff26b6 b lockDirDy	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:25
+e0ff26b7 b lockDirDx	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:24
+e0ff26b8 b lockTargetY	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:23
+e0ff26ba b lockTargetX	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:22
+e0ff26bc b lockTargetRow	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:21
+e0ff26be b lockTargetCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:20
+e0ff26c0 b lockedRow	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:19
+e0ff26c2 b lockedCol	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:18
+e0ff26c4 b lockMode	c:\Users\peter\Documents\_Genesis\Match3\Build/src/states/game_state.c:17
+e0ff26c8 b selectedMode	C:\Users\peter\Documents\_Genesis\Match3\Build/src/states/title_state.c:7
+e0ff26cc B bmp_buffer_write
+e0ff26d0 B VBlankProcess
+e0ff26d2 B hintCaller
+e0ff26d8 B vintCB
+e0ff26dc B intCB
+e0ff26e0 B vtimer
+e0ff26e4 B eintCB
+e0ff26e8 B intLevelSave
+e0ff26ea B intTrace
+e0ff26ec B dmaQueues
+e0ff26f0 b state
+e0ff26f2 b fadePSGVol
+e0ff26f4 b fadeFMVol
+e0ff26f6 b fadeCount
+e0ff26f8 b vscroll_update
+e0ff26f9 b hscroll_update
+e0ff26fa b xgm2WaitTab
+e0ff2702 b xgm2IdleTab
+e0ff270a b xgmTempoCnt
+e0ff270c b xgmWaitTab
+e0ff274c b xgmIdleTab
+e0ff278c b xgmTempoDef
+e0ff278e b xgmTempo
+e0ff2790 b busProtectSignalAddress
+e0ff2792 b driverFlags
+e0ff2794 b currentDriver
+e0ff2796 b lastVTimer.0
+e0ff2798 b text_plan
+e0ff279c b text_basetile
+e0ff279e b lastVCnt
+e0ff27a0 b windowWidthSft
+e0ff27a2 b planeHeightSft
+e0ff27a4 b planeWidthSft
+e0ff27a6 b windowWidth
+e0ff27a8 b planeHeight
+e0ff27aa b planeWidth
+e0ff27ac b hscrl_addr
+e0ff27ae b bgb_addr
+e0ff27b0 b bga_addr
+e0ff27b2 b window_addr
+e0ff27b4 b lastTick
+e0ff27b8 b cpuFrameLoad
+e0ff27ba b frameLoadIndex
+e0ff27bc b frameLoads
+e0ff27cc b vblankCB
+e0ff27d0 b flags
+e0ff27d2 b screenHeight
+e0ff27d4 b screenWidth
+e0ff27d6 b usedVDPSprite
+e0ff27d8 b allocStack
+e0ff2918 b slist_addr
+e0ff291a b vdpSpriteCache
+e0ff2c1a b maps_addr
+e0ff2c1c b spriteVramSize
+e0ff2c20 b vram
+e0ff2c2c b lastSprite
+e0ff2c30 b firstSprite
+e0ff2c34 b spritesPool
+e0ff2c38 b fadeCounter
+e0ff2c3a b heap
+e0ff2c3e b free.lto_priv.0
+e0ff2c42 b randomSeedSet
+e0ff2c43 b retry
+e0ff2c44 b phase.lto_priv.1
+e0ff2c45 b gun
+e0ff2c46 b extSet
+e0ff2c48 b disableIntStack
+e0ff2c4a b joyAxisY
+e0ff2c5a b joyAxisX
+e0ff2c6a b joyState
+e0ff2c7a b joyType
+e0ff2c82 b portSupport
+e0ff2c84 b portType
+e0ff2c86 b gport
+e0ff2c88 b joyEventCB
+e0ff2c8c b regValues
+e0ff2ca0 b flag
+e0ff2ca2 b maxTransferPerFrame
+e0ff2ca4 b queueSize
+e0ff2ca6 b nextDataBuffer
+e0ff2caa b queueTransferSize
+e0ff2cac b queueIndexLimit
+e0ff2cae b queueIndex
+e0ff2cb0 b dmaDataBuffer
+e0ff2cb4 b dataBufferSize
+e0ff2cb6 b phase.lto_priv.0
+e0ff2cb8 B _bend
 e1000000 A __stack
