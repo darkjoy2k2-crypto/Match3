@@ -1165,9 +1165,7 @@ void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2) {
 
     /* Allocate two sprite slots */
     slot1 = match_flight_alloc_slot();
-    slot2 = match_flight_alloc_slot();
-
-    if (slot1 == NULL || slot2 == NULL) {
+    if (slot1 == NULL) {
         /* If we couldn't allocate, fall back to instant swap */
         s16 tmp = fruitGrid[row1][col1];
         fruitGrid[row1][col1] = fruitGrid[row2][col2];
@@ -1177,8 +1175,37 @@ void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2) {
         return;
     }
 
+    /* Mark slot1 active BEFORE allocating slot2 */
+    slot1->active = TRUE;
+
+    slot2 = match_flight_alloc_slot();
+    if (slot2 == NULL) {
+        /* If we couldn't allocate second slot, fall back to instant swap */
+        slot1->active = FALSE;
+        s16 tmp = fruitGrid[row1][col1];
+        fruitGrid[row1][col1] = fruitGrid[row2][col2];
+        fruitGrid[row2][col2] = tmp;
+        pendingMatchCheck = TRUE;
+        boardDirty = TRUE;
+        return;
+    }
+
+    /* Mark slot2 active */
+    slot2->active = TRUE;
+    matchFlightActiveCount += 2;
+    matchFlightInProgress = TRUE;
+
     swapSprite1Index = (u16)(slot1 - matchFlightSprites);
     swapSprite2Index = (u16)(slot2 - matchFlightSprites);
+
+    /* Verify indices by finding slots in array (safer than pointer arithmetic) */
+    u16 i;
+    swapSprite1Index = 0xFFFFu;
+    swapSprite2Index = 0xFFFFu;
+    for (i = 0; i < MATCH_FLY_MAX_SPRITES; i++) {
+        if (&matchFlightSprites[i] == slot1) swapSprite1Index = i;
+        if (&matchFlightSprites[i] == slot2) swapSprite2Index = i;
+    }
     swapCol1 = col1;
     swapRow1 = row1;
     swapCol2 = col2;
@@ -1244,10 +1271,10 @@ void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2) {
         SPR_setAnim(slot1->sprite, anim);
         SPR_setAutoAnimation(slot1->sprite, FALSE);
         SPR_setFrame(slot1->sprite, frame);
+        SPR_setHFlip(slot1->sprite, FALSE);
+        SPR_setVFlip(slot1->sprite, FALSE);
         SPR_setPosition(slot1->sprite, startX1, startY1);
     }
-
-    slot1->active = TRUE;
 
     /* Setup slot2: from (col2,row2) to (col1,row1) */
     s16 startX2 = grid_col_to_px((s16)col2);
@@ -1288,12 +1315,11 @@ void food_engine_start_swap_animation(u16 col1, u16 row1, u16 col2, u16 row2) {
         SPR_setAnim(slot2->sprite, anim);
         SPR_setAutoAnimation(slot2->sprite, FALSE);
         SPR_setFrame(slot2->sprite, frame);
+        SPR_setHFlip(slot2->sprite, FALSE);
+        SPR_setVFlip(slot2->sprite, FALSE);
         SPR_setPosition(slot2->sprite, startX2, startY2);
     }
 
-    slot2->active = TRUE;
-    matchFlightActiveCount += 2;
-    matchFlightInProgress = TRUE;
     swapFrameCounter = 0;
 
     swapAnimState = SWAP_ANIM_IN_PROGRESS;
